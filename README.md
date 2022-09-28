@@ -1,2 +1,2 @@
-# CalculaInformactionMutua
-Práctica de Teoría de la información del Máster de Ciencia de Datos de la UAM
+# Cálculo de Información Mutua entre dos series temporales 
+Práctica de Teoría de la información del Máster de Ciencia de Datos de la UAM curso 2022-2023.
