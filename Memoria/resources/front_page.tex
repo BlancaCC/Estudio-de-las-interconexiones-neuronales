@@ -1,0 +1,59 @@
+
+
+% --- CAPA
+% alterando a cor
+\pagecolor{redUfmg}
+\afterpage{\nopagecolor}
+
+\colorlet{saved}{.}
+\color{white}
+\afterpage{\color{saved}}
+
+
+\center
+
+\vfill
+\includegraphics[scale = 1.2]{resources/logo_gris.png}\\[1cm]
+\vfill
+
+\textsc{\Large \myTitle} \\ 
+\textsc{\large \mySubtitle} \\ [0.5cm]
+\HRule \\[1.0cm]
+
+\flushleft \Large
+\autores
+\center {\fecha}\\[2cm]
+
+
+% --- CONTRA CAPA
+\color{black}
+
+\begin{titlepage}
+\vfill
+\begin{center} 
+{\Huge  \myTitle} \\ 
+{\Large \mySubtitle} \\[1cm]
+\hspace{.45\textwidth}
+\begin{minipage}{.5\textwidth}
+
+	{\normalsize \docDescription} \\
+	\vspace{5pt}
+	
+	{\normalsize Autores: \\ \autores } \\
+	\vspace{2.5pt}
+
+\end{minipage}
+\vfill
+\fecha
+\end{center}
+\end{titlepage}
+\vfill 
+\end{titlepage}
+
+
+% --- SUMARIO
+\tableofcontents
+\addtocontents{toc}{\protect\thispagestyle{empty}}
+\setcounter{page}{0}
+
+\pagebreak
