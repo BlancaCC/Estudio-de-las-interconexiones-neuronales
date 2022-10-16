@@ -28,10 +28,10 @@ def signal_to_binary(signal:list[float], lower_threshold:float, upper_threshold:
             i) Cambiar a estado 1
     '''
     state = 1
-    binary_signal = np.zeros(len(signal))
+    binary_signal = list(np.zeros(len(signal)))
     last = - np.Infinity
     
-    for i,s in enumerate([-np.Infinity, *signal ]):
+    for i,s in enumerate(signal):
         if state == 1:
             if s > upper_threshold:
                 last = s
