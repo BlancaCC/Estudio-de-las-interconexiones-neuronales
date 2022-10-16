@@ -26,7 +26,7 @@ def entropia(X,bits):
 
     '''
     Cálculo de la entropía de un conjunto de datos, donde X es el vector que contiene las palabras y bits la variable correspondiente a
-    la longitud de dichas palabras
+    la longitud de dichas palabras      
     '''
     X_words = palabras(X,bits)
     probs = probabilidad(X_words)
