@@ -1,4 +1,0 @@
-# Prefacio {.unnumbered}
-
-Práctica de la asignatura de Teoría de la Información 
-del máster de Ciencia de Datos de la UAM del curso 2022-2023. 

@@ -1,0 +1,20 @@
+# Prefacio {.unnumbered}
+
+Práctica de la asignatura de Teoría de la Información 
+del máster de Ciencia de Datos de la UAM del curso 2022-2023. 
+
+Esta memoria ha sido generada con [Quarto](https://quarto.org) y el lenguaje utilizado ha sido [Python](https://www.python.org/downloads/). 
+
+Las funciones declaradas se encuentra en el directorio `src` y contiene las siguientes: 
+
+- `read_data.py`: Lee los datos en formato `csv` y devuelve un `dataframe` con ellos. 
+
+ los notebooks en formato `.qmd` es la memoria ejecutable y que hace llamdas a tales funciones. 
+
+Para poder ejecutar la memoria entera dispone de un `Makefile` cuyas funciones básicas son: 
+
+- `make` o `make render` Para renderizar un pdf. 
+- Visualización de la memoria en html `make preview`. 
+
+Para ejecutar alguna casilla concreta puede abrir. 
+
