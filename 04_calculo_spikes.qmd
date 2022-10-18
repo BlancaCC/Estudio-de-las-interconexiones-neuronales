@@ -1,4 +1,4 @@
-# Cálculo de *spikes* {.unnumbered}  
+# Cálculo de *spikes*  
 
 ## Lectura de los datos
 
@@ -22,7 +22,7 @@ En el siguiente fragmento de código puede observar la cabecera de los datos:
 ```{python}
 print('Datos fichero trozo C')
 print(23*'-')
-!head -n 5 ../DatosSinapsisArtificial/TrozoC.txt 
+!head -n 14 ./DatosSinapsisArtificial/InformacionFicheros.txt
 ```
 
 ```{python}
@@ -39,12 +39,14 @@ from src.read_data import read_data
 
 data_path = './DatosSinapsisArtificial/'
 fileTrozoC , fileTrozoG, fileTrozoR = map( 
-    lambda letra: data_path+'Trozo'+ letra + '.txt',
+    lambda letra: data_path+'Trozo'+ letra + '.zip',
     "C G R".split()
     )
 columns_names = ["LP", "VD"]
 #["LP", "VD", "GABAInjection"]
 trozoC = read_data(fileTrozoC, columns_names)
+trozoC.head(4)
 ```
+Figura 1: Primeras 4 filas de la señal leída.   
 
 ## Diseño del algoritmo de cálculo de *spikes*
