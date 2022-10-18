@@ -1,6 +1,6 @@
 *~
-_*  
-*.aux  
+_*
+*.aux
 *.bcf
 *.lof
 *.lot
@@ -19,3 +19,5 @@ _*
 Experimento/DatosSinapsisArtificial/TrozoC.txt
 Experimento/DatosSinapsisArtificial/TrozoG.txt
 Experimento/DatosSinapsisArtificial/TrozoR.txt
+
+/.quarto/
