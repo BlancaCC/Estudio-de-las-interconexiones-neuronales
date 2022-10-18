@@ -48,15 +48,4 @@ def signal_to_binary(signal:list[float], lower_threshold:float, upper_threshold:
                 state = 1
     return binary_signal
                 
-                
-def test_signal_to_binary():
-    signal = [0,1.2, 1.3, -0.2,1.3,-1, 0,1.2,0]
-    expect_result = [0,0,1,0,0,0,1,0]
-    output = signal_to_binary(signal=signal, lower_threshold=-0.5, upper_threshold=1)
-    assert output == expect_result, f"Incorrect output expected {expect_result} but {output} arise"
-
-
-if __name__ == "__main__":
-    test_signal_to_binary()
-    print('All test passed')
-
+ 

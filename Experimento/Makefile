@@ -1,4 +1,7 @@
-all: test
+all: data
 
 test: 
-	python tests.py
+	python ALL_TEST.py
+
+data: 
+	python trozoC.py
