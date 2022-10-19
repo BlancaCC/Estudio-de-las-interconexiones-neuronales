@@ -118,17 +118,51 @@ El experimento puede ser ejecutado con `make experimento_umbrales` y se encuentr
 
 Los resultados han sido los siguientes: 
 
- step_lower | step_upper | lower threshold | upper_threshold | num spikes
+       
+ Distancia del umbral bajo | Distancia alta | Umbral bajo| Umbral alto| Número de *spikes*
 :-: |:-: |:-: |:-: |:-:   
-1 | 1| -0.08214043951251904 | 0.0821403944354572 | 192823  
-1 | 1.28| -0.08214043951251904 | 0.10513971118817388 | 144456  
-1 | 1.64| -0.08214043951251904 | 0.1347102612988096 | 88196  
-1 | 1.95| -0.08214043951251904 | 0.16017379056074593 | 62680  
-1 | 2.32| -0.08214043951251904 | 0.19056574484112151 | 48391  
-1.28 | 1| -0.10513975626523571 | 0.0821403944354572 | 156698  
-1.28 | 1.28| -0.10513975626523571 | 0.10513971118817388 | 130506  
-1.28 | 1.64| -0.10513975626523571 | 0.1347102612988096 | 85919  
-1.28 | 1.95| -0.10513975626523571 | 0.16017379056074593 | 62290  
+1.956 | 1.956| -0.161 | 0.161 | 54464  
+1.956 | 2.57| -0.161 | 0.211 | 41905  
+1.956 | 4.892| -0.161 | 0.402 | 31065  
+2.57 | 1.956| -0.211 | 0.161 | 45446  
+2.57 | 2.57| -0.211 | 0.211 | 38986  
+2.57 | 4.892| -0.211 | 0.402 | 31064  
+4.892 | 1.956| -0.402 | 0.161 | 10408  
+4.892 | 2.57| -0.402 | 0.211 | 10343  
+4.892 | 4.892| -0.402 | 0.402 | 10241  
 
 
+Vemos que el umbral bajo determina crucialmente el número de *spikes* realizaremos una inspencción viual para ver qué está acontenciendo en varias secciones aleatorias de la muestra 
 
+
+```{python}
+from src.get_thresholds import plotThreshold
+import numpy as np
+
+higher_threshold =  0.402 
+#lower_threshold  = -0.402
+
+LP = "LP"
+img_path = "img/04_calculo_spikes/"
+sample_interval = 0.1
+x_trozoC = sample_interval * np.arange(start=0, stop=samples_per_channel_trozoC)
+slice = 8200#10000
+
+for init in [1000, 5000, 10000]:
+    plotThreshold(
+        x_trozoC[init:slice+init],
+        (trozoC[LP].to_list())[init:slice+init], 
+            img_path+f'init{init}.png',
+            lower_threshold,
+            higher_threshold,
+            show_graph = True)
+
+```
+
+
+A la vista de las imágenes está fijaremos 
+
+```{python}
+higher_threshold =  0.402 
+lower_threshold  = -0.250
+```

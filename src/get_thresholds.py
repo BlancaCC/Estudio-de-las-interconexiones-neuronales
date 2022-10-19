@@ -4,12 +4,12 @@ Las funciones que contienen son:
 - `get_threshold_count`: *spikes* detectados para cierto umbral.
 - `get_threshold_graph`: saca las gráficas con los umbrales
 """
-from signal_to_binary import signal_to_binary
+from src.signal_to_binary import signal_to_binary
 import numpy as np
 import matplotlib.pyplot as plt # Dibujo de las gráficas 
 
 
-def get_threshold_count(signal:list[float], std_steps:list[float])->list[list[float]]:
+def get_threshold_count(signal:list[float], std_steps:list[float], name:str)->list[list[float]]:
     '''Devuelve una lista de listas  con el:
       i) threshold inferior, 
       ii) umbral superior,
@@ -22,7 +22,9 @@ def get_threshold_count(signal:list[float], std_steps:list[float])->list[list[fl
     std = np.std(signal)
 
     thresholds_and_spikes_count = dict()
-    print('N | step_lower | step_upper | lower threshold | upper_threshold | num spikes')
+    print(name)
+    print(' Distancia del umbral bajo | Distancia alta | Umbral bajo| Umbral alto| Número de *spikes*')
+    print(':-: |' * 4 + ':-:   ')
     cnt = 0
     for step in std_steps: 
         lower_threshold = mean - step * std
@@ -31,7 +33,7 @@ def get_threshold_count(signal:list[float], std_steps:list[float])->list[list[fl
             spikes_detected = signal_to_binary(signal, lower_threshold, upper_threshold)
             number_of_spikes = spikes_detected.count(1)
             thresholds_and_spikes_count[(lower_threshold,upper_threshold)]= number_of_spikes
-            print(f'{cnt} | {step} | {step_upper}| {lower_threshold} | {upper_threshold} | {number_of_spikes}  ')
+            print(f'{step} | {step_upper}| {lower_threshold:.3f} | {upper_threshold:.3f} | {number_of_spikes}  ')
 
             cnt+=1
     return thresholds_and_spikes_count
@@ -56,7 +58,7 @@ def get_threshold_graph(X, l,path_images, std_step = [1,1.28, 1.64, 1.95, 2.32],
     mean = np.mean(l)
     std = np.std(l)
     print(mean, std)
-    plt.figure(figsize=(10,10))
+    #plt.figure(figsize=(10,10))
 
     # Experimento 
     # sigmas source: https://es.wikipedia.org/wiki/Distribución_normal#Desviación_t%C3%ADpica_e_intervalos_de_confianza
@@ -72,7 +74,7 @@ def get_threshold_graph(X, l,path_images, std_step = [1,1.28, 1.64, 1.95, 2.32],
     number_of_spikes_matrix = list(np.zeros((tries, tries)))
     for i,lower_step in enumerate(std_step):
         lower_threshold = mean - std*lower_step
-        # Vamos a suponer que hay sumetría 
+        # Vamos a suponer que hay simetría 
         for j,upper_step in enumerate([lower_step]):#enumerate(std_step):
             name = path_images+f'sl{lower_step}su{upper_step}.png'
             upper_threshold = mean + std*upper_step
@@ -91,9 +93,24 @@ def get_threshold_graph(X, l,path_images, std_step = [1,1.28, 1.64, 1.95, 2.32],
             plt.plot(X,[upper_threshold for i in X], label='upper threshold')
             plt.plot(X,[lower_threshold for i in X], label='upper threshold')
             plt.scatter([X[i] for i in index_with_spike],[l[i] for i in index_with_spike], label='spike')
-            plt.legend()
-            plt.title(title)
-            
+            #plt.legend()
+            plt.title(title) 
             plt.savefig(name)
-            if show_graph:
-                 plt.show()
+            plt.show()
+
+def plotThreshold(X, l,path_images_and_name, lower_threshold, upper_threshold,show_graph=False):
+
+    spikes_detected = signal_to_binary(l, lower_threshold, upper_threshold)
+    index_with_spike = list(filter(
+                    lambda x: spikes_detected[x] == 1,
+                    list(range(len(l)))
+                    ))
+    plt.plot(X, l, label='Signal')
+    plt.plot(X,[upper_threshold for i in X], label='Upper threshold')
+    plt.plot(X,[lower_threshold for i in X], label='Lower threshold')
+    plt.scatter([X[i] for i in index_with_spike],[l[i] for i in index_with_spike], label='spike')
+    #plt.legend()
+    #plt.title(title) 
+    plt.savefig(path_images_and_name)
+    plt.show()
+
