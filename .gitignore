@@ -22,3 +22,4 @@ _*
 
 /.quarto/
 !_quarto.yml
+/Renders/*
