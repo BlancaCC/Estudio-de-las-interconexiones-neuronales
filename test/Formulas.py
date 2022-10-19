@@ -1,3 +1,4 @@
+from macpath import join
 import numpy as np
 import math
 
@@ -36,8 +37,31 @@ def entropy(X,bits,stride):
         H += -p*math.log(p,2)
     return H
 
-def join_probability(X,Y,bits):
-    probs_x = probability(X)
-    probs_y = probability(Y)
+def join_probability(x,y,X,Y):
+    xy = np.array(x,y)
+    pairs = zip(X,Y)
+    cases, counts = np.unique(pairs, return_counts=True, axis=0)
+    join_prob = 0
+    for j in range(len(cases)):
+            if np.array_equal(xy,cases[j]):
+                join_prob = counts[j]/len(pairs)
+    return join_prob
+
+def join_entropy(X,Y,bits,stride):
+    X_words = words(X,bits,stride)
+    Y_words = words(Y,bits,stride)
+    join_probs = join_probability(X_words,Y_words)
+    H = 0
+    for x in X_words:
+        for y in Y_words:
+            H += -join_probability(x,y,X,Y)*math.log(join_probability(x,y,X,Y),2)
+    return H
+
+def mutual_information(X,Y,bits,stride):
+    return entropy(X,bits,stride)+entropy(Y,bits,stride)-join_entropy(X,Y,bits,stride)
+
+
+    
+
     
 
