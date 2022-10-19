@@ -1,0 +1,36 @@
+
+La estructura de los ficheros es:
+-----------------------------------
+
+TrozoC.txt -> Control
+Las tres primeras lineas del fichero son:
+Sample interval = 0,100000 ms
+Number of channels = 2
+Number of samples per channel = 19847700
+
+y a continuación las columnas:
+Columna 1 -> LP
+Columna 2 -> VD
+-----------------------------------
+
+TrozoG.txt -> GABA
+Las tres primeras lineas del fichero son:
+Sample interval = 0,100000 ms
+Number of channels = 3
+Number of samples per channel = 16384000
+
+y a continuación las columnas:
+Columna 1 -> LP
+Columna 2 -> VD
+Columna 3 -> Tiempo y duración precisa de inyección GABA al 4º spike de VD.
+-----------------------------------
+
+TrozoR.txt -> Recuperación
+Las tres primeras lineas del fichero son:
+Sample interval = 0,100000 ms
+Number of channels = 2
+Number of samples per channel = 16384000
+
+y a continuación las columnas:
+Columna 1 -> LP
+Columna 2 -> VD

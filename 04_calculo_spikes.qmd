@@ -1,0 +1,52 @@
+# Cálculo de *spikes*  
+
+## Lectura de los datos
+
+### Descripción 
+Para gestión de la información se utilizará la biblioteca de pandas, no es necesario gestionar la memoria porque las arquitecturas de nuestros ordenadores la manejan sin problemas. 
+
+La estructura de los ficheros viene dada en la información de los datos, en el fichero 
+`InformacionFicheros.txt` y en las tres primeras líneas de los mismos (las cuales deberán de ser obviadas para la lectura del fichero). 
+
+### Requisitos 
+- Tener las respectivas biblioteca instaladas (pandas, matplotlib y numpy). 
+- Los datos deben encontrarse en el path indicado en la variable `data_path`. 
+
+En el siguiente fragmento de código puede observar la cabecera de los datos: 
+
+- El intervalo de muestreo es de $0.1 ms$.
+- Hay dos canales, una por cada neurona.
+- Y en total se han tomado $19847700$ muestreos. 
+
+
+```{python}
+print('Datos fichero trozo C')
+print(23*'-')
+!head -n 14 ./DatosSinapsisArtificial/InformacionFicheros.txt
+```
+
+```{python}
+## Data information 
+sample_interval = 0.1
+samples_per_channel_trozoC = 19847700
+```
+## Lectura de los datos  
+
+Para la lectura de los datos se va a utilizar la biblioteca *Pandas* y la función `read_csv` puede encontrar la implementación de la misma en el directorio `src/read_data.py`. 
+
+```{python}
+from src.read_data import read_data
+
+data_path = './DatosSinapsisArtificial/'
+fileTrozoC , fileTrozoG, fileTrozoR = map( 
+    lambda letra: data_path+'Trozo'+ letra + '.zip',
+    "C G R".split()
+    )
+columns_names = ["LP", "VD"]
+#["LP", "VD", "GABAInjection"]
+trozoC = read_data(fileTrozoC, columns_names)
+trozoC.head(4)
+```
+Figura 1: Primeras 4 filas de la señal leída.   
+
+## Diseño del algoritmo de cálculo de *spikes*
