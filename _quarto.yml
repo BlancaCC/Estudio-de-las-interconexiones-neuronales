@@ -1,0 +1,27 @@
+project:
+  type: book
+  output-dir: Renders
+lang: es
+book:
+  title: "Memoria"
+  author: "Blanca Cano Camarero y Iker Villegas Labairu."
+  date: \today
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - 04_calculo_spikes.qmd
+    - summary.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+
+
+
+
