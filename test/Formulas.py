@@ -25,7 +25,6 @@ def words(X,bits,stride):
     return(X_words)
 
 def entropy(X,bits,stride):
-
     '''
     Cálculo de la entropía de un conjunto de datos, donde X es el vector que contiene las palabras y bits la variable correspondiente a
     la longitud de dichas palabras      
