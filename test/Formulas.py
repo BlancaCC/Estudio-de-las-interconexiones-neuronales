@@ -49,7 +49,6 @@ def join_probability(x,y,X,Y):
 def join_entropy(X,Y,bits,stride):
     X_words = words(X,bits,stride)
     Y_words = words(Y,bits,stride)
-    join_probs = join_probability(X_words,Y_words)
     H = 0
     for x in X_words:
         for y in Y_words:
