@@ -49,4 +49,86 @@ trozoC.head(4)
 ```
 Figura 1: Primeras 4 filas de la señal leída.   
 
-## Diseño del algoritmo de cálculo de *spikes*
+## Diseño del algoritmo de cálculo de *spikes*  
+
+Para calcular los *spikes* se ha optado por utilizar un doble umbral 
+la descripción del algoritmo es la siguiente y la puede encontrar en el fichero `src/signal_to_binary.py`: 
+
+Dada una señal `signal` que es una lista unidimensional de la señal. 
+Para que cuento como señal debe de superar el umbral superior `upper_threshold` y ser la primera 
+vez o que ya se haya alcanzado un valor inferior a `lower_threshold`.
+
+Además una vez que se supera el umbral se colocará cuando la tendencia vaya a bajar.
+Esto queda reflejado con los siguientes estados: 
+
+- **Estado 1**: 
+Si `s > upper_threshold` entonces :
+i) `last = s`
+ii) pasar a estado 2.
+
+- **Estado 2**: 
+Si `s` < `last` entonces:
+i) poner un spike en señal anterior
+ii) `last = -inf`
+iii) pasar a estado 3
+Si no entonces: 
+i) last = s 
+
+- **Estado 3**: 
+Si `s < lower_threshold` entonces:
+i) Cambiar a estado 1
+ 
+___
+
+### Motivación del algoritmo 
+
+Notemos que este algoritmo detecta el *spike* como el primer instante antes de que la señal empiece a decaer (punto azul) y en situaciones donde tras una caída no lo suficientemente baja y una subida aunque sea superior (punto amarillo) se tomaría al primero como punto de *spike*.
+
+![Dualidad spikes](img/04_calculo_spikes/dualidad_spikes.png)  
+
+Esta decisión se ha tomado ya que filosóficamente se podría entender *spike* como el instante en el que toma un *valor grande* y que el resto son obscilaciones del pico. En caso de que se desee tener el valor amarillo bastaría con subir el umbral superior. 
+
+
+## Determinación de los umbrales  
+
+Para determinar los umbral 
+vamos a suponer que la señal sigue una distribución normal, 
+ya que este tipo de distribución modela fenómenos con mecanismos complejos y desconocidos.
+
+La distribución normal posee la propiedad de que 
+
+Porcentaje de la población dentro de la normal | Distancia a la media   
+:-: | :-: 
+$80\%$ | $1.281 \sigma$  
+$90\%$ | $1.645 \sigma$  
+$95\%$ | $1.956 \sigma$  
+$99\%$ | $2.576 \sigma$  
+$99.9\%$ | $3.291 \sigma$   
+$99.99\%$ | $3.891 \sigma$  
+$99.999\%$ | $4.892 \sigma$  
+
+
+Los *impulsos* son eventos *raros* y por tanto serán aquellos que se encuentren más alejados de la media más
+
+Hemos realizado por tanto un experimento para ver la dependencia entre el umbral seleccionado y el número de *spikes* detectados. 
+
+Éste consiste en variar los umbrales conforme a la distancia a media y ver el número el número de spikes detectados (puede consultar la implementación en `src/get_thresholds.py`) 
+
+El experimento puede ser ejecutado con `make experimento_umbrales` y se encuentra implementado en  el fichero `src/experiment_gets_threshold.py`. 
+
+Los resultados han sido los siguientes: 
+
+ step_lower | step_upper | lower threshold | upper_threshold | num spikes
+:-: |:-: |:-: |:-: |:-:   
+1 | 1| -0.08214043951251904 | 0.0821403944354572 | 192823  
+1 | 1.28| -0.08214043951251904 | 0.10513971118817388 | 144456  
+1 | 1.64| -0.08214043951251904 | 0.1347102612988096 | 88196  
+1 | 1.95| -0.08214043951251904 | 0.16017379056074593 | 62680  
+1 | 2.32| -0.08214043951251904 | 0.19056574484112151 | 48391  
+1.28 | 1| -0.10513975626523571 | 0.0821403944354572 | 156698  
+1.28 | 1.28| -0.10513975626523571 | 0.10513971118817388 | 130506  
+1.28 | 1.64| -0.10513975626523571 | 0.1347102612988096 | 85919  
+1.28 | 1.95| -0.10513975626523571 | 0.16017379056074593 | 62290  
+
+
+

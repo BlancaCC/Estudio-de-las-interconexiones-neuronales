@@ -9,7 +9,7 @@ def signal_to_binary(signal:list[float], lower_threshold:float, upper_threshold:
     Además una vez que se supera el threshold se colocará cuando la tendencia vaya a bajar.
     Esto queda reflejado con los siguientes estados: 
     - Estado 1: 
-        Si `s` supera el umbral entonces:
+        Si `s > upper_threshold` entonces:
             i) `last = s`
             ii) pasar a estado 2.
     - Estado 2: 
