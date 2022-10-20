@@ -12,6 +12,7 @@ book:
     - 04_calculo_spikes.qmd
     - summary.qmd
     - references.qmd
+    - appendix.qmd
 
 bibliography: references.bib
 

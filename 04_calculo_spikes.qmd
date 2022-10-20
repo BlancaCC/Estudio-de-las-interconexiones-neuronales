@@ -132,7 +132,7 @@ Los resultados han sido los siguientes:
 4.892 | 4.892| -0.402 | 0.402 | 10241  
 
 
-Vemos que el umbral bajo determina crucialmente el número de *spikes* realizaremos una inspencción viual para ver qué está acontenciendo en varias secciones aleatorias de la muestra 
+Vemos que el umbral bajo determina crucialmente el número de *spikes* realizaremos una inspencción viual para ver qué está acontenciendo en varias secciones aleatorias de la muestra (si se encuentra en un entorno de ejecución podría modificar los valores de `higher_thresholds` y de `lower_threshold`).  
 
 
 ```{python}
@@ -140,7 +140,7 @@ from src.get_thresholds import plotThreshold
 import numpy as np
 
 higher_threshold =  0.402 
-#lower_threshold  = -0.402
+lower_threshold  = -0.402
 
 LP = "LP"
 img_path = "img/04_calculo_spikes/"
@@ -163,6 +163,25 @@ for init in [1000, 5000, 10000]:
 A la vista de las imágenes está fijaremos 
 
 ```{python}
-higher_threshold =  0.402 
-lower_threshold  = -0.250
+upper_threshold =  0.402 
+lower_threshold  = -0.320
+
+LP = "LP"
+img_path = "img/04_calculo_spikes/"
+sample_interval = 0.1
+x_trozoC = sample_interval * np.arange(start=0, stop=samples_per_channel_trozoC)
+slice = 8200#10000
+
+for init in [1000, 5000, 10000]:
+    plotThreshold(
+        x_trozoC[init:slice+init],
+        (trozoC[LP].to_list())[init:slice+init], 
+            img_path+f'init{init}_lower{lower_threshold}_upper{upper_threshold}.png',
+            lower_threshold,
+            higher_threshold,
+            show_graph = True)
+
 ```
+
+Hemos repetido el experimento para cada uno de los trozos y cada neurona. Puede consultar los resultados en el apéndice \ref{appendix:experiment_gets_threshold} o bien ejecutarlos por si mismo `make experimento_umbrales`; ese comando mostrará los resultados en la terminal y además los almacenará en el directorio `experiment_results/get_threshold.txt`.  
+

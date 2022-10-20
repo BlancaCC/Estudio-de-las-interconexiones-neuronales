@@ -9,4 +9,5 @@ render:
 
 ## Experimentos
 experimento_umbrales:
+	python src/experiment_gets_threshold.py > ./experiment_results/get_threshold.txt &
 	python src/experiment_gets_threshold.py

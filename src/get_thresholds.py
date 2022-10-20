@@ -4,7 +4,14 @@ Las funciones que contienen son:
 - `get_threshold_count`: *spikes* detectados para cierto umbral.
 - `get_threshold_graph`: saca las gráficas con los umbrales
 """
-from src.signal_to_binary import signal_to_binary
+# Es necesario ponerlo como excepción porque el path 
+# path varía en función de dónde se ejecute. 
+try:
+    from signal_to_binary import signal_to_binary
+except:
+    from src.signal_to_binary import signal_to_binary
+
+
 import numpy as np
 import matplotlib.pyplot as plt # Dibujo de las gráficas 
 
