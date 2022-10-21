@@ -5,7 +5,7 @@ from get_thresholds import get_threshold_count
 ### Variables globales
 
 data_path = './DatosSinapsisArtificial/' # dirección de los datos
-distances = [1.956, 2.57,3.891,4.892 ]
+distances = [1.281, 1.645, 1.4, 1.956, 2.57,3.891,4.892, 5.326 ]
 trozos_files = list(
     map( 
     lambda letra: data_path+'Trozo'+ letra + '.zip',

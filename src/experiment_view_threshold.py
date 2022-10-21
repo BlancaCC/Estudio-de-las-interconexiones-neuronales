@@ -29,7 +29,7 @@ def plotFinalThreshold(slice: int, trozos:list[str] = ['C', 'R', 'G'], neurons:l
 
             initial_values = [randint(0,NUMBER_OF_SAMPLES[trozo]-2) for i in range(number_of_images)]
             for init in initial_values:
-                name = img_path+f'trozo_{trozo}_neuron_{neuron}_init_{init}_{lower_threshold}_ {upper_threshold}.png'
+                name = img_path+f'3_trozo_{trozo}_neuron_{neuron}_init_{init}_{lower_threshold}_ {upper_threshold}.png'
                 title = f'For signal {trozo} neuron {neuron} on [{init}, {init+slice}] '#with thresholds({lower_threshold} and {upper_threshold})'
                 plotThreshold(
                     RANGE[trozo][init:slice+init],
