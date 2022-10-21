@@ -35,17 +35,9 @@ samples_per_channel_trozoC = 19847700
 Para la lectura de los datos se va a utilizar la biblioteca *Pandas* y la función `read_csv` puede encontrar la implementación de la misma en el directorio `src/read_data.py`. 
 
 ```{python}
-from src.read_data import read_data
+from src.read_data import read_data, signal
 
-data_path = './DatosSinapsisArtificial/'
-fileTrozoC , fileTrozoG, fileTrozoR = map( 
-    lambda letra: data_path+'Trozo'+ letra + '.zip',
-    "C G R".split()
-    )
-columns_names = ["LP", "VD"]
-#["LP", "VD", "GABAInjection"]
-trozoC = read_data(fileTrozoC, columns_names)
-trozoC.head(4)
+signal['C'].head(4)
 ```
 Figura 1: Primeras 4 filas de la señal leída.   
 
@@ -163,25 +155,20 @@ for init in [1000, 5000, 10000]:
 A la vista de las imágenes está fijaremos 
 
 ```{python}
-upper_threshold =  0.402 
-lower_threshold  = -0.320
 
-LP = "LP"
-img_path = "img/04_calculo_spikes/"
-sample_interval = 0.1
-x_trozoC = sample_interval * np.arange(start=0, stop=samples_per_channel_trozoC)
-slice = 8200#10000
-
-for init in [1000, 5000, 10000]:
-    plotThreshold(
-        x_trozoC[init:slice+init],
-        (trozoC[LP].to_list())[init:slice+init], 
-            img_path+f'init{init}_lower{lower_threshold}_upper{upper_threshold}.png',
-            lower_threshold,
-            higher_threshold,
-            show_graph = True)
 
 ```
 
 Hemos repetido el experimento para cada uno de los trozos y cada neurona. Puede consultar los resultados en el apéndice \ref{appendix:experiment_gets_threshold} o bien ejecutarlos por si mismo `make experimento_umbrales`; ese comando mostrará los resultados en la terminal y además los almacenará en el directorio `experiment_results/get_threshold.txt`.  
+
+A la vista de los resultados concluimos que los umbrales son
+leer como trozo, neurona y umbral bajo o alto. 
+
+```{python}
+from src.constants import THRESHOLD
+import json
+print(json.dumps(THRESHOLD, sort_keys=True, indent=4))
+```
+
+
 

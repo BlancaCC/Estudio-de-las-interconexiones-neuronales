@@ -100,24 +100,33 @@ def get_threshold_graph(X, l,path_images, std_step = [1,1.28, 1.64, 1.95, 2.32],
             plt.plot(X,[upper_threshold for i in X], label='upper threshold')
             plt.plot(X,[lower_threshold for i in X], label='upper threshold')
             plt.scatter([X[i] for i in index_with_spike],[l[i] for i in index_with_spike], label='spike')
-            #plt.legend()
+            
             plt.title(title) 
             plt.savefig(name)
             plt.show()
 
-def plotThreshold(X, l,path_images_and_name, lower_threshold, upper_threshold,show_graph=False):
-
+def plotThreshold(X:list[float], l:list[float],path_images_and_name:str, lower_threshold:float, upper_threshold:float,title:str):
+    ''' Save and show and plot the signal, spikes and threshold. 
+    `X` range 
+    `l` images of the signal
+    `path_images_and_name` path and name of the function 
+    `title`: name of the function 
+    '''
     spikes_detected = signal_to_binary(l, lower_threshold, upper_threshold)
     index_with_spike = list(filter(
                     lambda x: spikes_detected[x] == 1,
                     list(range(len(l)))
                     ))
     plt.plot(X, l, label='Signal')
-    plt.plot(X,[upper_threshold for i in X], label='Upper threshold')
-    plt.plot(X,[lower_threshold for i in X], label='Lower threshold')
+    plt.plot(X,[upper_threshold for i in X], label=f'Upper threshold = {upper_threshold}')
+    plt.plot(X,[lower_threshold for i in X], label=f'Lower threshold = {lower_threshold}')
     plt.scatter([X[i] for i in index_with_spike],[l[i] for i in index_with_spike], label='spike')
+    plt.legend(bbox_to_anchor=(1.01,1))#bbox_to_anchor=(1.5, 1.0), loc='upper left')
+    plt.tight_layout()
     #plt.legend()
-    #plt.title(title) 
-    plt.savefig(path_images_and_name)
-    plt.show()
+    plt.title(title, fontsize = 6) 
+    plt.savefig(path_images_and_name, bbox_inches='tight')
+    plt.pause(0.01)
+    plt.close()
+    
 

@@ -19,3 +19,15 @@ def read_data(source:str, columns_name:list[str])-> pd.DataFrame:
     ) 
     return signal
 
+
+try:
+    from constants import FILES_NAMES, NEURONS, ALL_COLUMNS
+except:
+    from src.constants import FILES_NAMES, NEURONS, ALL_COLUMNS
+
+    
+signal= {
+    'C' : read_data(FILES_NAMES['C'], NEURONS),
+    'R' : read_data(FILES_NAMES['R'], NEURONS),
+    'G' : read_data(FILES_NAMES['G'], ALL_COLUMNS)
+}
