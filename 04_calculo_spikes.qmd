@@ -201,13 +201,13 @@ Vamos a ajustar los umbrales a
 ![Región sin *spike*](img/04_calculo_spikes/trozo_R_neuron_VD_init_9615631_-0.085_ 0.206.png)
 ![](img/04_calculo_spikes/trozo_R_neuron_VD_init_9689603_-0.085_ 0.206.png) 
 
-Umbrarles correctos para R neurona VD.
+Umbrales correctos para R neurona VD.
 :::
 
 
 Para el caso de la misma señal neurona VD, podemos observar que es  el umbral es correcto. 
 
-Para G LP los umbrales están debasiado cerca de la media. 
+Para G LP los umbrales están demasiado cerca de la media. 
 
 
 :::{#fig-G-LP-1  layout-ncol=2}
@@ -227,3 +227,23 @@ El umbral superior está demasiado cerca
 
 Para la señal G neurona VD el umbral inferior es demasiado bajo.
 :::
+
+Tras estas observaciones puede se ha concluido que 
+
+| Trozo | Neurona | Distancia $\sigma$ inferior | $\sigma$ superior |  Umbral inferior | Umbral superior | 
+| :-: | :-: | :-: | :-: | :-: | | :-: |  
+| C | LP | 2.57 | 4.892| -0.211 | 0.402 |  
+| C | VD | 2.57 | 3.891| -0.041 | 0.172 |  
+| R | LP | 1.4 | 1.956| -0.306 | 0.348 |  
+| R | VD | 3.891 | 4.892| -0.085 | 0.206 | 
+| G | LP |5.326 | $>15$| -0.432 | 0.75 |    
+| G | VD | 3.891 | 4.892| -0.087 | 0.207 |        
+
+: Selección final de umbrales {#tbl-threshold2}
+
+Por la determinación de estos umbrales puede observarse cierta asimetría de la señal: *sube más de lo que baja*, también es llamativo que para una misma neurona cada umbral varíe, esto puede deberse o a la naturaleza propia 
+de la señal o que el aparato de medida o condiciones del experimento sean distintas. 
+
+Puede observar las gráficas finales en la carpeta `img/04_calculo_spikes` las que comiencen con `2` o bien ejecutando usted mismo `make plot_experimental_thresholds` (o directamente el programa `python src/experiment_view_threshold.py`).   
+
+
