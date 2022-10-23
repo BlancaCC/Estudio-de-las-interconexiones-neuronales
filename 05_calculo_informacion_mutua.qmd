@@ -1,0 +1,41 @@
+# Cálculo de la información mutua  
+
+Vamos a proceder con el cálculo de la información mutua entre las dos señales. 
+
+## Abstracción del problema 
+
+Una vez preprocesada la señal a un secuencia binaria, donde uno significa hay estímulo; la probabilidad de que aparezca una determinada palabra (cadena de $n$-bits consecutivos) se trata de un proceso estocástico de Poisson. 
+
+Es decir, la probabilidad de que pueda aparecer cierta cadena. 
+
+El estimador máximo verosímil de una distribución de Poisson es la media, luego fijado un tamaño de palabra y un *stride* calcularemos la frecuencia de cada casuística. 
+
+
+## Cálculo de la información mutua
+
+
+La información mutua para dos variables  $X$, $Y$ aleatorias se puede definit como 
+$$
+MI(X,Y) = S(X) +  S(Y) + S(X,Y),
+$${#eq-informacion-mutua}
+donde $S$ denota a la entropía y responde a las siguientes fórmulas: 
+
+$$
+S(X) = - \sum_i p(x_i) \log_2 (p(x_i))
+$${#eq-entropia}
+
+
+Las implementaciones de estas funciones se encuentran en el ejecutable `src/formulas.py`. 
+
+
+## Formulación del experimento 
+
+Para el cálculo de la información mutua se va a realizar el siguiente proceso: 
+
+1. Se transforma la señal analógica un una binaria (ver algoritmo `src/signal_to_binary.py`). 
+
+2. Se fija un tamaño de ventana y *stride*. 
+
+3. Para la venta y stride de las señales $X$ e $Y$ se obtienen un array de sus palabras. 
+
+4. Se calcula la probabilidad de tales 

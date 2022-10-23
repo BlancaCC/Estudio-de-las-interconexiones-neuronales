@@ -24,3 +24,6 @@ _*
 !_quarto.yml
 /Renders/*
 */figure-pdf/*
+*.pdf
+
+!Renders/Memoria.pdf

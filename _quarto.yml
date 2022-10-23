@@ -10,6 +10,7 @@ book:
     - index.qmd
     - intro.qmd
     - 04_calculo_spikes.qmd
+    - 05_calculo_informacion_mutua.qmd
     - summary.qmd
     - references.qmd
     - appendix.qmd
