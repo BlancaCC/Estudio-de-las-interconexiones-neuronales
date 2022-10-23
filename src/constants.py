@@ -55,7 +55,7 @@ RANGE = dict(
 )
 
 data_path  = './DatosSinapsisArtificial/'
-fileTrozoC , fileTrozoG, fileTrozoR  =  map( 
+fileTrozoC , fileTrozoR, fileTrozoG  =  map( 
     lambda letra: data_path+'Trozo'+ letra + '.zip',
     "C R G".split()
     )

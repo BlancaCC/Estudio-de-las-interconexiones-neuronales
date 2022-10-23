@@ -1,7 +1,7 @@
 import numpy as np
 import math
 
-def words(X:np.array,bits:int,stride:int) -> list[list[int]]:
+def words(X:list[int],bits:int,stride:int) -> list[list[int]]:
     '''
     Formación de las palabras de una secuencia binaria
     `X` secuencia binaria temporal correspondiente a una neurona 

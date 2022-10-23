@@ -39,3 +39,55 @@ Para el cálculo de la información mutua se va a realizar el siguiente proceso:
 3. Para la venta y stride de las señales $X$ e $Y$ se obtienen un array de sus palabras. 
 
 4. Se calcula la probabilidad de tales 
+
+
+A la vista de los resultados de cada trozo podemos afirmar que el *stride* no juega un papel fundamental pero que sí lo hace el stride.
+
+Es por ello que vamos a fijar de ahora en adelante $stride = bits$  y vamos a aumentar el ancho de ventana, esto es: 
+
+Calcularemos la distancia mínima entre spikes para dos señales con el código `/src/spike_distance.py` cuyo resultado es:  
+
+
+Trozo | Neurona | Intervalo mínimo entre *spikes* | Media | std   
+ --- | --- | --- | --- | ---  
+ C  | LP | 24 | 9994824.932 | 6056023.942  
+ C  | VD | 10 | 10229353.488 | 5779379.905  
+ R  | LP | 16 | 8356519.059 | 4859624.688  
+ R  | VD | 16 | 8422905.584 | 4842002.988  
+ G  | LP | 17086 | 9173668.302 | 4109764.716  
+ G  | VD | 65 | 8413845.722 | 4894766.835  
+
+: Mínima distancia entre los *spikes* {#tbl-distancias}
+
+
+
+Es por ello que ampliaremos el tamaño de ventana es decir transformaremos la señal binaria de cada trozo. 
+
+Donde el radio de acción es, para cada trozo: 
+
+$$
+\text{radio acción}
+= 
+\min(dist LP, dist VD )
+%\lfloor
+%\frac{\min(dist LP, dist VD ) -1}{2}
+%\rfloor
+$$
+
+
+Trozo | Radio de acción    
+--- | ---  
+C  | 10
+R  | 16
+G  | 65
+
+: Radio de acción {#tbl-radio-action}
+
+Las nuevas señales binarias vendrán dadas por: 
+
+
+$$
+\text{señal binaria nueva}[i] = 
+\max \text{señal antigua[i*radio acción: (i+1)*radio acción]}
+$$
+De esta manera la señal tendrá un uno si ya lo había o un dos si no lo había. 
