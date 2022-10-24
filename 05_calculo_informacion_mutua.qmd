@@ -14,7 +14,7 @@ El estimador máximo verosímil de una distribución de Poisson es la media, lue
 ## Cálculo de la información mutua
 
 
-La información mutua para dos variables  $X$, $Y$ aleatorias se puede definit como 
+La información mutua para dos variables  $X$, $Y$ aleatorias se puede definir como 
 $$
 MI(X,Y) = S(X) +  S(Y) + S(X,Y),
 $${#eq-informacion-mutua}
@@ -91,3 +91,7 @@ $$
 \max \text{señal antigua[i*radio acción: (i+1)*radio acción]}
 $$
 De esta manera la señal tendrá un uno si ya lo había o un dos si no lo había. 
+
+##Ejecución del experimento
+
+
