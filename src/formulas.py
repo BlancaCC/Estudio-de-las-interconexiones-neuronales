@@ -82,6 +82,36 @@ def mutual_information(X:list[float],Y:list[float],bits:int,stride:int) -> float
 
     return entropy(X_words) + entropy(Y_words) - entropy(list(zip(X_words, Y_words)))
 
+def normalized_mutual_information(X:list[float],Y:list[float],bits:int,stride:int):
+    '''
+    Devuelve la terna formada por
+        - `MI` Información mutua. 
+        - `E_XY` entropía normalizada del estímulo `X`a la neurona respuesta `Y`.
+        - `E_XY` entropía normalizada del estímulo `Y` a la neurona respuesta `X`.
+
+    Argumentos: 
+    - `X` secuencia binaria temporal correspondiente a una neurona 
+    - `Y` secuencia binaria temporal correspondiente a una neurona 
+    - `bits` tamaño de cada palabra que se tomará de la secuencia binaria
+    - `stride` deslizamiento secuencial de la ventana con la que se forman las palabras
+    '''
+    
+    X_words = words(X,bits, stride)
+    Y_words = words(Y,bits, stride)
+
+    H_X = entropy(X_words)
+    H_Y = entropy(Y_words)
+    MI = H_X + H_Y - entropy(list(zip(X_words, Y_words)))
+
+    E_XY = MI/H_Y
+    E_YX = MI/H_X
+
+    return MI, E_XY, E_YX
+
+
+    
+
+
 # ----- TESTS -----
 
 def words_test():
