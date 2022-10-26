@@ -68,17 +68,17 @@ Trozo | Neurona | Intervalo mínimo entre spikes |   Media distancias | std
  G  | VD | 65| 8413845.72 | 4894766.83 
 : Mínima distancia entre los *spikes* {#tbl-distancias}
 
-Trozo | Neurona | Tamaño cuantil 0.05 | Porcentaje ventanas falsas | Tamaño admitir ventanas falsas    
- --- | --- | ---  | --- | --- 
- C  | LP | 108| 4.91% | 186 
- C  | VD | 86| 4.94% | 207 
- R  | LP | 41| 5.01% | 124   
- R  | VD | 96| 4.92% | 213  
- G  | LP | 26336| 4.72% | 153362 
- G  | VD | 92| 5.02% | 247 | 8413845.72 
-: Tamaño de ventana para cuantil de distancia de $0.05$ {#tbl-distancias-cuantil}
+Trozo | Neurona | Distancia cuantil 0.05      
+ --- | --- | ---    
+ C  | LP | 108
+ C  | VD | 86   
+ R  | LP | 41     
+ R  | VD | 96    
+ G  | LP | 26336   
+ G  | VD | 92  
+:  Distancia de *spike* para cuantil de distancia de $0.05$ {#tbl-distancias-cuantil}
 
-Trozo | Neurona | Porcentaje ventanas falsas | Tamaño admitir ventanas falsas    
+Trozo | Neurona | Porcentaje ventanas falsas | Distanca admitir ventanas falsas    
  --- | ---  | --- | --- 
  C  | LP | 4.91% | 186 
  C  | VD | 4.94% | 207 
@@ -109,7 +109,7 @@ Trozo | Ventana máxima distancia | Ventana máxima cuantil $0.5$ | Ventana máx
 :-: | :-:  | :-: | :-:   
 C  | 11 | 87 | 187 
 R  | 17 | 42 | 125    
-G  | 66 | 93 | 93  
+G  | 66 | 93 | 248   
 
 : Ventanas máximas calculadas {#tbl-radio-action}
 
