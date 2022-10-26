@@ -94,8 +94,7 @@ Trozo | Neurona | Tamaño cuantil 0.05 | Porcentaje ventanas falsas | Tamaño ad
  G  | VD | 92| 5.02% | 247 | 8413845.72 
 : Tamaño de ventana para cuantil de distancia de $0.05$ {#tbl-distancias-cuantil}
 
-Trozo | Neurona | Porcentaje ventanas falsas | Tamaño admitir ventanas falsas    
->>>>>>> 8129f97 (Calcula el nuevo radio de acción #24)
+Trozo | Neurona | Porcentaje ventanas falsas | Distanca admitir ventanas falsas    
  --- | ---  | --- | --- 
  C  | LP | 4.91% | 186 
  C  | VD | 4.94% | 207 
@@ -129,7 +128,7 @@ R  | 17 | 42 | 125
 <<<<<<< HEAD
 G  | 66 | 93 | 248   
 =======
-G  | 66 | 93 | 93  
+G  | 66 | 93 | 248   
 >>>>>>> 8129f97 (Calcula el nuevo radio de acción #24)
 
 : Ventanas máximas calculadas {#tbl-radio-action}
