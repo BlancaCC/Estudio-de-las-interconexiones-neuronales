@@ -41,63 +41,77 @@ Para el cálculo de la información mutua se va a realizar el siguiente proceso:
 4. Se calcula la probabilidad de tales 
 
 
-A la vista de los resultados de cada trozo podemos afirmar que el *stride* no juega un papel fundamental pero que sí lo hace el stride.
+A la vista de los resultados de cada trozo podemos afirmar que el *stride* no juega un papel fundamental pero que sí lo hace el tamaño de ventana.
 
-Es por ello que vamos a fijar de ahora en adelante $stride = bits$  y vamos a aumentar el ancho de ventana, esto es: 
+Es por ello que vamos a fijar de ahora en adelante $stride = bits$  y vamos a aumentar el ancho de ventana, tomaremos las siguientes casuísticas y las compararemos a posteriori: 
 
-Calcularemos la distancia  entre spikes para la misma señal con el código `/src/spike_distance.py` o ejecutando `calcular_distancia_spike`. 
-Además estas distancias serán ordenadas, se mostrará la mínima y también la que 
-está en el cuantil $5\%$, de esta manera generará como máximo . 
+La condición de tamaño de ventana: 
+- No genera ninguna ventana falsa. 
+- Cuantil $0.05$ de las distancias entre *spikes*.
+- Aceptaremos un $5\%$ de ventanas falsas. 
 
+La implementación del cálculo de ventana se realiza en `/src/spike_distance.py` puede ejecutar tal fichero o hacer `make calcular_distancia_spike` el código se segmenta en: 
+- Calcular las distancias entre spikes consecutivos.
+- Calcular la distancia mínima.
+- Calcular el cuantil $0.05$ de las distancias calculadas. 
+- Realizar una búsqueda binaria del tamaño de ventana que hace que al rededor del $5\%$ sean ventanas falsas. 
 
-Si se desea calcular por porcentaje existente de ventanas falsas debería de tomarse como tamaño de ventana a la distancia índice que satisfaga porcentaje ventanas $ = 5\%$. 
+Los resultados han sido los siguientes: 
 
-$$
-\text{procentaje ventanas falsas }
-= 
-\frac{\text{índice} +1}{ \text{tamaño señal} / distancia} \times 100
-$$
-
- cuyo resultado es:  
-
-
- Trozo | Neurona | Intervalo mínimo entre spikes | Cuantil | Distancia| Media | std   
- --- | --- | ---  | --- | --- | --- | --- 
- C  | LP | 24 | 5% | 108 | 9994824.932 | 6056023.942  
- C  | VD | 10 | 5% | 86 | 10229353.488 | 5779379.905  
- R  | LP | 16 | 5% | 41 | 8356519.059 | 4859624.688  
- R  | VD | 16 | 5% | 96 | 8422905.584 | 4842002.988  
- G  | LP | 17086 | 5% | 26336 | 9173668.302 | 4109764.716  
- G  | VD | 65 | 5% | 92 | 8413845.722 | 4894766.835  
+Trozo | Neurona | Intervalo mínimo entre spikes |   Media distancias | std   
+ --- | --- | ---  | --- | --- | --- | --- | --- | ---  
+ C  | LP | 24| 9994824.93 | 6056023.94  
+ C  | VD | 10| 10229353.49 | 5779379.91  
+ R  | LP | 16| 8356519.06 | 4859624.69  
+ R  | VD | 16|8422905.58 | 4842002.99  
+ G  | LP | 17086| 9173668.30 | 4109764.72  
+ G  | VD | 65| 8413845.72 | 4894766.83 
 : Mínima distancia entre los *spikes* {#tbl-distancias}
 
+Trozo | Neurona | Tamaño cuantil 0.05 | Porcentaje ventanas falsas | Tamaño admitir ventanas falsas    
+ --- | --- | ---  | --- | --- 
+ C  | LP | 108| 4.91% | 186 
+ C  | VD | 86| 4.94% | 207 
+ R  | LP | 41| 5.01% | 124   
+ R  | VD | 96| 4.92% | 213  
+ G  | LP | 26336| 4.72% | 153362 
+ G  | VD | 92| 5.02% | 247 | 8413845.72 
+: Tamaño de ventana para cuantil de distancia de $0.05$ {#tbl-distancias-cuantil}
 
+Trozo | Neurona | Porcentaje ventanas falsas | Tamaño admitir ventanas falsas    
+ --- | ---  | --- | --- 
+ C  | LP | 4.91% | 186 
+ C  | VD | 4.94% | 207 
+ R  | LP | 5.01% | 124   
+ R  | VD | 4.92% | 213  
+ G  | LP | 4.72% | 153362 
+ G  | VD |  5.02% | 247 |
+: Tamaño de ventana en función de un porcentaje de ventanas falsas {#tbl-distancias-falsas}
 
 Es por ello que ampliaremos el tamaño de ventana es decir transformaremos la señal binaria de cada trozo. 
 
 Para ello el nuevo acción entiende que solo habrá un $5%$ de ventanas falsas 
 
 
-
-Donde el radio de acción es, para cada trozo: 
+Donde el tamaño de ventana nuevo, para cada trozo vendrá dado como: 
 
 $$
-\text{radio acción}
+\text{tamaño ventana}
 = 
-\min(dist LP, dist VD )
+\min(dist LP, dist VD )+1
 %\lfloor
 %\frac{\min(dist LP, dist VD ) -1}{2}
 %\rfloor
 $$
 
 
-Trozo | Radio de acción    
---- | ---  
-C  | 10
-R  | 16
-G  | 65
+Trozo | Ventana máxima distancia | Ventana máxima cuantil $0.5$ | Ventana máxima falsas     
+:-: | :-:  | :-: | :-:   
+C  | 11 | 87 | 187 
+R  | 17 | 42 | 125    
+G  | 66 | 93 | 93  
 
-: Radio de acción {#tbl-radio-action}
+: Ventanas máximas calculadas {#tbl-radio-action}
 
 Las nuevas señales binarias vendrán dadas por: 
 
