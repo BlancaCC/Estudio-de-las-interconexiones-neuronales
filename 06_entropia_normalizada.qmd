@@ -1,0 +1,28 @@
+# Cálculo de entropía normaliza o información mutua normalizada 
+
+
+Esta medida se usa para medir la transferencia de información del estímulo $S$ a la neurona respuesta $R$. 
+
+Viene dada por la siguiente expresión  
+
+$$
+E_{R S}
+= 
+\frac{MI_{R S}}{H(S)}
+$$
+
+Donde $H$ ya hemos comentado que es la entropía de $S$, es decir la máxima cantidad de información que se puede transmitir del estímulo a la neurona respuesta.  
+
+
+Está acotado entre 
+
+$$
+0 \leq E_{R S}
+\leq 
+1
+$$
+
+
+Si $E_{R S} = 0$ significa que toda la información es
+perdida, es decir respuesta y estímulo son completamente independientes. $E_{R S} = 1$  sería la sincronización completa. 
+

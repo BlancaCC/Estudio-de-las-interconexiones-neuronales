@@ -35,18 +35,215 @@ samples_per_channel_trozoC = 19847700
 Para la lectura de los datos se va a utilizar la biblioteca *Pandas* y la función `read_csv` puede encontrar la implementación de la misma en el directorio `src/read_data.py`. 
 
 ```{python}
-from src.read_data import read_data
+from src.read_data import read_data, signal
 
-data_path = './DatosSinapsisArtificial/'
-fileTrozoC , fileTrozoG, fileTrozoR = map( 
-    lambda letra: data_path+'Trozo'+ letra + '.zip',
-    "C G R".split()
-    )
-columns_names = ["LP", "VD"]
-#["LP", "VD", "GABAInjection"]
-trozoC = read_data(fileTrozoC, columns_names)
-trozoC.head(4)
+signal['C'].head(4)
 ```
 Figura 1: Primeras 4 filas de la señal leída.   
 
-## Diseño del algoritmo de cálculo de *spikes*
+## Diseño del algoritmo de cálculo de *spikes*  
+
+Para calcular los *spikes* se ha optado por utilizar un doble umbral 
+la descripción del algoritmo es la siguiente y la puede encontrar en el fichero `src/signal_to_binary.py`: 
+
+Dada una señal `signal` que es una lista unidimensional de la señal. 
+Para que cuento como señal debe de superar el umbral superior `upper_threshold` y ser la primera 
+vez o que ya se haya alcanzado un valor inferior a `lower_threshold`.
+
+Además una vez que se supera el umbral se colocará cuando la tendencia vaya a bajar.
+Esto queda reflejado con los siguientes estados: 
+
+- **Estado 1**: 
+Si `s > upper_threshold` entonces :
+i) `last = s`
+ii) pasar a estado 2.
+
+- **Estado 2**: 
+Si `s` < `last` entonces:
+i) poner un spike en señal anterior
+ii) `last = -inf`
+iii) pasar a estado 3
+Si no entonces: 
+i) last = s 
+
+- **Estado 3**: 
+Si `s < lower_threshold` entonces:
+i) Cambiar a estado 1
+ 
+___
+
+### Motivación del algoritmo 
+
+Notemos que este algoritmo detecta el *spike* como el primer instante antes de que la señal empiece a decaer (punto azul) y en situaciones donde tras una caída no lo suficientemente baja y una subida aunque sea superior (punto amarillo) se tomaría al primero como punto de *spike*.
+
+![Dualidad spikes](img/04_calculo_spikes/dualidad_spikes.png)  
+
+Esta decisión se ha tomado ya que filosóficamente se podría entender *spike* como el instante en el que toma un *valor grande* y que el resto son obscilaciones del pico. En caso de que se desee tener el valor amarillo bastaría con subir el umbral superior. 
+
+
+## Determinación de los umbrales  
+
+Para determinar los umbral 
+vamos a suponer que la señal sigue una distribución normal, 
+ya que este tipo de distribución modela fenómenos con mecanismos complejos y desconocidos.
+
+La distribución normal posee la propiedad de que 
+
+Porcentaje de la población dentro de la normal | Distancia a la media   
+:-: | :-: 
+$80\%$ | $1.281 \sigma$ 
+$90\%$ | $1.645 \sigma$  
+$95\%$ | $1.956 \sigma$  
+$99\%$ | $2.576 \sigma$  
+$99.9\%$ | $3.291 \sigma$   
+$99.99\%$ | $3.891 \sigma$  
+$99.999\%$ | $4.892 \sigma$  
+$99.9999\%$ | $5.326 \sigma$  
+$99.99999\%$ | $6.109\sigma$  
+
+
+Los *impulsos* son eventos *raros* y por tanto serán aquellos que se encuentren más alejados de la media más
+
+Hemos realizado por tanto un experimento para ver la dependencia entre el umbral seleccionado y el número de *spikes* detectados. 
+
+Éste consiste en variar los umbrales conforme a la distancia a media y ver el número el número de spikes detectados (puede consultar la implementación en `src/get_thresholds.py`) 
+
+El experimento puede ser ejecutado con `make experimento_umbrales` y se encuentra implementado en  el fichero `src/experiment_gets_threshold.py`. 
+
+Los resultados han sido los siguientes: 
+
+       
+ Distancia del umbral bajo | Distancia alta | Umbral bajo| Umbral alto| Número de *spikes*
+:-: |:-: |:-: |:-: |:-:   
+1.956 | 1.956| -0.161 | 0.161 | 54464  
+1.956 | 2.57| -0.161 | 0.211 | 41905  
+1.956 | 4.892| -0.161 | 0.402 | 31065  
+2.57 | 1.956| -0.211 | 0.161 | 45446  
+2.57 | 2.57| -0.211 | 0.211 | 38986  
+2.57 | 4.892| -0.211 | 0.402 | 31064  
+4.892 | 1.956| -0.402 | 0.161 | 10408  
+4.892 | 2.57| -0.402 | 0.211 | 10343  
+4.892 | 4.892| -0.402 | 0.402 | 10241  
+
+
+Vemos que el umbral bajo determina crucialmente el número de *spikes* realizaremos una inspencción viual para ver qué está acontenciendo en varias secciones aleatorias de la muestra (si se encuentra en un entorno de ejecución podría modificar los valores de `higher_thresholds` y de `lower_threshold`).  
+
+
+Hemos repetido el experimento para cada uno de los trozos y cada neurona. Puede consultar los resultados en el apéndice \ref{appendix:experiment_gets_threshold} o bien ejecutarlos por si mismo `make experimento_umbrales`; ese comando mostrará los resultados en la terminal y además los almacenará en el directorio `experiment_results/get_threshold.txt`.  
+
+A la vista de los resultados de los primeros 
+umbrales en un primer estadio hemos tomado como
+ criterio tener los umbrales lo más *grandes* posibles  siempre 
+ y cuando el número de spikes no decaiga dramáticamente. 
+ La selección primera ha resultado: 
+
+| Trozo | Neurona | Umbral inferior | Umbral superior | Número de spikes |
+| :-: | :-: | :-: | :-: | :-: |
+| C | LP | -0.320|  0.402 | 30308 | 
+| C | VD | -0.084 | 0.205 | 21246 |   
+| R | LP | -0.534 | 0.920 | 24076 |    
+| R | VD | -0.085 | 0.206 | 17618 |   
+| G | LP | -0.316 | 0.397 | 25889 |   
+| G | VD | -0.120 | 0.207 | 13127 |       
+
+: Selección primera de umbrales {#tbl-threshold1}
+
+Como método de validación de estos umbrales hemos formulado el siguiente experimento: 
+
+Para cada trozo y neurona se realizará una inspección visual de cinco rango aleatorios de valores, si para estos se escapan *impulsos* que visualmente se consideran válidos se retocará el umbral.
+
+Puede ejecutar el experimento con: 
+`make plot_experimental_thresholds`
+ que no solo mostrará en pantalla las 
+ gráficas si no que  las almacena en la la carpeta `img/04_calculo_spikes`.
+
+Vamos a proceder a mostrar algunos de los ejemplos representativos: 
+
+Para la señal `C` neurona `LP` va a ser necesario subir un poco el umbral inferior, ya que en dos casos spoikes de rangos aleatorios se ha escapado un estímulo por el rango inferior. 
+
+::: {#fig-C-lp-1 layout-ncol=2}
+
+![](./img/04_calculo_spikes/trozo_C_neuron_LP_init_3875382_-0.32_ 0.402.png)
+
+![](./img/04_calculo_spikes/trozo_C_neuron_LP_init_7153273_-0.32_ 0.402.png)
+
+Umbral inferior demasiado bajo para señal C, neurona LP
+:::
+
+Es por ello que vamos a considerar el nuevo umbral bajo como `-0.211`. 
+
+Para la misma señal la neurona VD ocurre un efecto parecido que procederemos a paliar con aumentando el umbral. 
+
+:::{#fig-C-VD-1} 
+![](img/04_calculo_spikes/trozo_C_neuron_VD_init_3768096_-0.084_ 0.205.png)
+
+Umbral inferior demasiado bajo para señal , neurona VD 
+:::
+
+Es por ello que lo subieremos a `-0.041 `. 
+
+Para la señal R de la neurona LP los *spikes* se separan demasiado de los umbrales.
+
+:::{#fig-R-LP-1  layout-ncol=2}
+
+![](img/04_calculo_spikes/trozo_R_neuron_LP_init_591169_-0.534_ 0.92.png) 
+![](img/04_calculo_spikes/trozo_R_neuron_LP_init_9730764_-0.534_ 0.92.png)
+
+Umbrales demasiado alejados de la señal para la señal R neurona LP.
+:::
+
+Vamos a ajustar los umbrales a 
+
+:::{#fig-R-VD-1  layout-ncol=2}
+
+![](img/04_calculo_spikes/trozo_R_neuron_VD_init_13675983_-0.085_ 0.206.png)
+![](img/04_calculo_spikes/trozo_R_neuron_VD_init_6815380_-0.085_ 0.206.png)
+![Región sin *spike*](img/04_calculo_spikes/trozo_R_neuron_VD_init_9615631_-0.085_ 0.206.png)
+![](img/04_calculo_spikes/trozo_R_neuron_VD_init_9689603_-0.085_ 0.206.png) 
+
+Umbrales correctos para R neurona VD.
+:::
+
+
+Para el caso de la misma señal neurona VD, podemos observar que es  el umbral es correcto. 
+
+Para G LP los umbrales están demasiado cerca de la media. 
+
+
+:::{#fig-G-LP-1  layout-ncol=2}
+
+![](img/04_calculo_spikes/trozo_G_neuron_LP_init_57008_-0.316_ 0.397.png) 
+![](img/04_calculo_spikes/trozo_G_neuron_LP_init_9274708_-0.316_ 0.397.png)
+
+El umbral superior está demasiado cerca 
+:::
+
+
+
+:::{#fig-G-VD-1 }
+
+![](img/04_calculo_spikes/trozo_G_neuron_VD_init_8317284_-0.12_ 0.207.png) 
+
+
+Para la señal G neurona VD el umbral inferior es demasiado bajo.
+:::
+
+Tras estas observaciones puede se ha concluido que 
+
+| Trozo | Neurona | Distancia $\sigma$ inferior | $\sigma$ superior |  Umbral inferior | Umbral superior | 
+| :-: | :-: | :-: | :-: | :-: | | :-: |  
+| C | LP | 2.57 | 4.892| -0.211 | 0.402 |  
+| C | VD | 2.57 | 3.891| -0.041 | 0.172 |  
+| R | LP | 1.4 | 1.956| -0.306 | 0.348 |  
+| R | VD | 3.891 | 4.892| -0.085 | 0.206 | 
+| G | LP |5.326 | $>15$| -0.432 | 0.75 |    
+| G | VD | 3.891 | 4.892| -0.087 | 0.207 |        
+
+: Selección final de umbrales {#tbl-threshold2}
+
+Por la determinación de estos umbrales puede observarse cierta asimetría de la señal: *sube más de lo que baja*, también es llamativo que para una misma neurona cada umbral varíe, esto puede deberse o a la naturaleza propia 
+de la señal o que el aparato de medida o condiciones del experimento sean distintas. 
+
+Puede observar las gráficas finales en la carpeta `img/04_calculo_spikes` las que comiencen con `2` o bien ejecutando usted mismo `make plot_experimental_thresholds` (o directamente el programa `python src/experiment_view_threshold.py`).   
+
+

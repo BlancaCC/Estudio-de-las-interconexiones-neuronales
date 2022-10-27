@@ -4,5 +4,11 @@ Práctica de Teoría de la información del Máster de Ciencia de Datos de la UA
 
 ## Compilación de la memoria  
 
-- Instalar LaTEX.
-- Instalar plugin de laTEX en vsCode.
+- Instalar quarto
+- Instalar pandoc
+
+Ejecutar 
+`make render` o `quarto render --to pdf` 
+también se puede visualizar la edición a tiempo real en una página web : 
+`make preview` o `quarto preview`. 
+
