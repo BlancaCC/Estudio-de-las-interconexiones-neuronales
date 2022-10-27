@@ -1,14 +1,17 @@
 # Cálculo de la información mutua  
 
-Vamos a proceder con el cálculo de la información mutua entre las dos señales. 
+Vamos a proceder con el cálculo de la información mutua entre las dos señales de las neuronas. 
 
 ## Abstracción del problema 
+Una vez preprocesada la señal, dispondremos de una secuencia binaria donde cada 1 hará alusión a la aparición 
+de algún estímulo en la ventana temporal correspondiente, y 0 el caso contrario. Dicha secuencia se dividirá en
+palabras (cadenas de $n$-bits consecutivos), las cuales se formarán aplicando un 
+deslizamiento de la ventana a partir de la misma (nos referiremos a él mediante la variable 'stride'). Así, 
+dispondremos de una nueva secuencia de palabras formadas mediante la secuencia obtenida con anterioridad.
 
-Una vez preprocesada la señal a un secuencia binaria, donde uno significa hay estímulo; la probabilidad de que aparezca una determinada palabra (cadena de $n$-bits consecutivos) se trata de un proceso estocástico de Poisson. 
-
-Es decir, la probabilidad de que pueda aparecer cierta cadena. 
-
-El estimador máximo verosímil de una distribución de Poisson es la media, luego fijado un tamaño de palabra y un *stride* calcularemos la frecuencia de cada casuística. 
+Para hallar la probabilidad de aparición de una determinada palabra, haremos uso de su frecuencia
+de aparición, es decir, aplicaremos la Regla de Laplace, por la cual, dividiremos el número de veces que aparece dicha
+palabra a lo largo de la secuencia por el número de palabras totales de la misma.
 
 
 ## Cálculo de la información mutua
