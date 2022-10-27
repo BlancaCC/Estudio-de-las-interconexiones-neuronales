@@ -1,0 +1,73 @@
+# Suposición de otro tipo de codificación de eventos  
+
+Se pretende en este apartado utilizar otro tipo de codificación de eventos 
+para el cálculo de las probabilidades y la información mutua. 
+
+En nuestro caso vamos a proponer el sistema de codificación SAX (ver artículo @SAX). 
+
+## Descripción del sistema de codificación SAX  
+
+SAX permite reducir una serie temporal de tamaño $n$
+a otra de tamaño $w$ usualmente $w << n$. 
+
+$a$ será el tamaño del alfabeto, $a > 2$. 
+
+Los pasos a seguir son: 
+
+1. Transformación de los datos en *PAA* *Piecewise Aggregate Approximation*
+
+De la siguiente manera: 
+Una serie temporal $C$ de longitud $n$ puede ser represetada en un vector $\bar C$ de dimensión $w$
+
+Donde el elemento i-ésimo viene dado por 
+
+$$
+\bar c_i
+= 
+\frac{w}{n}
+\sum_{j = 
+\frac{n}{w}(i-1)+1
+}^{\frac{n}{w}i}
+c_j.
+$$
+
+Notemos que esto no es más que una media de los elementos contiguos. 
+
+
+2. Discretización 
+
+Cada componente de la nueva señal transformada será mapeado por un símbolo en función del rango de valor en que se encuentre. 
+
+Para ello se definen los *breakpoints* qu eno son más que una lista de números $B= b_1, \ldots, b_{a-1}$ de tal forma que su area bajo un normal $\mathcal{N}(0,1)$ sea para cada uno de ellos 
+$\frac{1}{a}$.
+Además se tiene que $b_0 = -\infty$ y  $b_a = +\infty$. 
+
+De esta manera formaremos las palabras $\hat C$
+que vendrá dada como 
+
+$$
+\hat c_i = \alpha_j
+\text{, sii  }
+\beta_{j-1} \leq \beta_j
+$$
+
+y con esto se obtendría la nueva señal. 
+
+## Observaciones
+
+Notemos que se tienen dos variables libres en este sistema: 
+
+-  $w$ el tamaño de PAA, que de manera implícita debe de ser un divisor de $n$ el tamaño original para mayor comodidad. 
+
+- $a$ el tamaño del alfabeto. 
+
+## Sobre nuestra implementación 
+
+El código relacionado con el algoritmo se encuentra en el fichero `src/SAX.py`. 
+
+
+## Notas  
+
+- Es muy similar a lo que nosotros hemos hecho, solo que este no discretiza en 0 y 1 solo (a no ser que se indique el alfabeto así)
+y se usa un percentil homogéneo -> es mejor lo que hemos hecho nosotros para detectar los outliers. 
+
