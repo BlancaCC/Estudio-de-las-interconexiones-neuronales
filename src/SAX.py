@@ -37,7 +37,6 @@ def between_index(n:float, l:list[float], alphabet_size:int)-> int:
         cnt += 1
     return cnt
 
-# Blanca:  Me he quedado por aquí implementando
 def PAA_to_SAX(bar_C:list[float], alphabet_size:int):
     """
     Realiza paso 2 de discretización
@@ -66,25 +65,60 @@ def PAA_to_SAX(bar_C:list[float], alphabet_size:int):
         )
     )
     return new_signal
-    
+
+def SAX( signal:list[float], word_size:int, alphabet_size:int)->list[int]:
+    '''
+    Return SAX sybolic represetation for temporal series 
+    ''' 
+    # Transformamos el tamaño de palabra en la longitud nueva deseada
+    bar_C =  PAA (signal, len(signal)//word_size)
+    sax = PAA_to_SAX(bar_C, alphabet_size)
+    return sax
 
 ### test 
 
-if True: 
-#__name__ == '__main__':
+if __name__ == '__main__':
+    print('Test PAA')
     C = [1,2,1,0, 0, 0 ]
     w =  3
     print(PAA(C,w))
+
     # test: between_index
+    print('\nbetween_index')
     a = 3
     l = [0,1,2]
     for i in [-0.1,0.1,1.1,2.2]:
         print(f' para {i} -> {between_index(i,l,3)}')
 
     # Test: PAA_to_SAX
+    print('\nPAA_to_SAX')
     s = [1,1,1,1,2,2,3,10,-10,2,2,2,2,1,1,1,1,0,0,3,0,3]
     print(s)
     for a in range(1,10, 3):
         print(f'''{a}:
         {PAA_to_SAX(s, a)}
 ''')
+
+    # Text SAX
+    print('\nTest of SAX')
+    from read_data import signal
+    from constants import NEURONS
+    from formulas import mutual_information,words
+
+    trozo = 'C'
+    a = 1
+    w = 1
+    b = 86
+    print(signal[trozo][NEURONS[1]].to_list()[0:20])
+    sax_signal_1 = SAX(
+                signal=signal[trozo][NEURONS[1]].to_list(),
+                word_size=w,
+                alphabet_size=a
+            )
+
+    print('sax_signal',sax_signal_1[100:120])
+    sax_words = words(sax_signal_1, b,b)
+    print('sax words',sax_words[:5])
+    print('mutual information', mutual_information(sax_signal_1,sax_signal_1, 3, 3))
+   
+    
