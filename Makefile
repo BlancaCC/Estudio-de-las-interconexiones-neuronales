@@ -37,3 +37,8 @@ calcular_entropia_normalizada:
 		python src/experiment_get_transformed_normalized_mutual_information.py C > ./experiment_results/entropia_mutua_normalizada/entropia_mutua_normalizada_C.txt &
 		python src/experiment_get_transformed_normalized_mutual_information.py R > ./experiment_results/entropia_mutua_normalizada/entropia_mutua_normalizada_R.txt &
 		python src/experiment_get_transformed_normalized_mutual_information.py G > ./experiment_results/entropia_mutua_normalizada/entropia_mutua_normalizada_G.txt &
+
+calcular_sax:
+	python src/experiment_sax_mi.py C > ./experiment_results/SAX/mutual_information_C.csv &
+	python src/experiment_sax_mi.py R > ./experiment_results/SAX/mutual_information_R.csv &
+	python src/experiment_sax_mi.py G > ./experiment_results/SAX/mutual_information_G.csv &

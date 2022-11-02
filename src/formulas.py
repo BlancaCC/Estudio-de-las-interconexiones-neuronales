@@ -145,13 +145,15 @@ def entropy_test():
     entropy(words_2)
 
 def mutual_information_test():
+    print('Test: Mutual Information')
     size = 100
-    X = np.random.rand(size)
-    Y = np.random.rand(size)
+    X = np.zeros(size)
+    Y = np.zeros(size)
     bits = 3
     stride = 2
-    mutual_information(X, Y,bits,stride) 
-
+    mi = mutual_information(X, Y,bits,stride) 
+    assert mi == 0, 'MI(X,X) should be 0'
+    
 if __name__ == '__main__':
     words_test()
     probability_test()
