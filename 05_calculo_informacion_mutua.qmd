@@ -116,7 +116,7 @@ G  | 66 | 93 | 248
 
 : Ventanas máximas calculadas {#tbl-radio-action}
 
-Las nuevas señales binarias vendrán dadas por: 
+Las nuevas señales binarias vendrán dadas del siguiente modo: 
 
 
 $$
