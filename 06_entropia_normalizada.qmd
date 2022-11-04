@@ -26,3 +26,62 @@ $$
 Si $E_{R S} = 0$ significa que toda la información es
 perdida, es decir respuesta y estímulo son completamente independientes. $E_{R S} = 1$  sería la sincronización completa. 
 
+
+## Resultados obtenidos 
+
+### Trozo C
+| trozo | window size  | bits | stride | IM(LP,VD) | E(LP -> VD)| E( VD -> LP) |  
+| :-: | :-: |  :-: | :-: | :-: | :-: | :-: | 
+| C| 11 | 1 | 1 | 0.00026 | 0.00276 | 0.00212 |  
+| C| 11 | 2 | 2 | 0.00106| 0.0055 | 0.0042 |  
+| C| 11 | 3 | 3 | 0.0024 | 0.0084 | 0.0064 |  
+| C| 11 | 4 | 4 | 0.0043 | 0.0113 | 0.0087 |  
+| C| 11 | 5 | 5 | 0.0069| 0.01446 | 0.011 |  
+| C| 11 | 6 | 6 | 0.0102 | 0.0178 | 0.0137 |  
+| C| 11 | 7 | 7 | 0.0143 | 0.021| 0.01655|  
+| C| 11 | 8 | 8 | 0.0189 | 0.0248 | 0.0190|  
+| C| 87 | 1 | 1 | 0.01839 | 0.0399 | 0.0320 |  
+| C| 87 | 2 | 2 | 0.0617| 0.068 | 0.0544 |  
+| C| 87 | 3 | 3 | 0.0825 | 0.0686 | 0.054 |  
+| C| 87 | 4 | 4 | 0.0970 | 0.066 | 0.0524|  
+| C| 87 | 5 | 5 | 0.1105 | 0.06 | 0.0513 |  
+| C| 87 | 6 | 6 | 0.126 | 0.066 | 0.0514 |  
+| C| 87 | 7 | 7 | 0.144 | 0.068 | 0.052 |  
+| C| 87 | 8 | 8 | 0.1618 | 0.0696 | 0.054 |  
+| C| 187 | 1 | 1 | 0.0657 | 0.0989 | 0.082 |  
+| C| 187 | 2 | 2 | 0.0973 | 0.097 | 0.08 |  
+| C| 187 | 3 | 3 | 0.119 | 0.092 | 0.0764 |  
+| C| 187 | 4 | 4 | 0.1424 | 0.090 | 0.075 |  
+| C| 187 | 5 | 5 | 0.17 | 0.0938 | 0.077 |  
+| C| 187 | 6 | 6 | 0.211 | 0.0998 | 0.083 |  
+| C| 187 | 7 | 7 | 0.264 | 0.111 | 0.092 |  
+| C| 187 | 8 | 8 | 0.328 | 0.124 | 0.104 |  
+
+### Trozo R
+
+
+![](img/otros/Captura de Pantalla 2022-11-04 a las 23.23.38.png)
+
+
+### Trozo G
+
+![](img/otros/Captura de Pantalla 2022-11-04 a las 23.32.42.png)
+
+
+
+### Conclusiones 
+
+La información mutua nos indica de manera intuitiva la reducción de la incertidumbre entre dos variables aleatorias. 
+Es decir la dependencia estadística. 
+Puede observarse que al aumentar el tamaño de ventana y el tamaño de bits esta aumenta. 
+Este resultado está acorde con la idea intuitiva de que hay muchos ceros y pocos unos en la señal y que al tomar una ventana mayor se *tiene más conocimiento* con el que poder predecir. 
+
+La información mutua normalizada nos da un valor entre -1 y 1 nos da información sobre cómo una variable aleatoria puede 
+explicar a la otra. 
+
+En nuestro caso nos encontramos cercanos a cero indicando que la explicación es poca. Esto es normal ya que la el cerebro,
+es una red neuronal compleja y nosotros solo estamos centrándonos en dos; ¡ante esta perspectiva quizás lo 
+sorprendente es que sea distinta de cero!
+
+Otra observación interesante es que la información mutua normalizada no es simétrica, esto es normal también; ya que 
+que un fenómeno explique a otro no implica la simetría. 

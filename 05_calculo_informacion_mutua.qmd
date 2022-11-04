@@ -1,23 +1,20 @@
 # Cálculo de la información mutua  
 
-Vamos a proceder con el cálculo de la información mutua entre las dos señales de las neuronas. 
+Vamos a proceder con el cálculo de la información mutua entre las dos señales. 
 
 ## Abstracción del problema 
-Una vez preprocesada la señal, dispondremos de una secuencia binaria donde cada 1 hará alusión a la aparición 
-de algún estímulo en la ventana temporal correspondiente, y 0 el caso contrario. Dicha secuencia se dividirá en
-palabras (cadenas de $n$-bits consecutivos), las cuales se formarán aplicando un 
-deslizamiento de la ventana a partir de la misma (nos referiremos a él mediante la variable 'stride'). Así, 
-dispondremos de una nueva secuencia de palabras formadas mediante la secuencia obtenida con anterioridad.
 
-Para hallar la probabilidad de aparición de una determinada palabra, haremos uso de su frecuencia
-de aparición, es decir, aplicaremos la Regla de Laplace, por la cual, dividiremos el número de veces que aparece dicha
-palabra a lo largo de la secuencia por el número de palabras totales de la misma.
+Una vez preprocesada la señal a un secuencia binaria, donde uno significa hay estímulo; la probabilidad de que aparezca una determinada palabra (cadena de $n$-bits consecutivos) se trata de un proceso estocástico de Poisson. 
+
+Es decir, la probabilidad de que pueda aparecer cierta cadena. 
+
+El estimador máximo verosímil de una distribución de Poisson es la media, luego fijado un tamaño de palabra y un *stride* (deslizamiento de la ventana) calcularemos la frecuencia de cada casuística y esa será su probabilidad. 
 
 
 ## Cálculo de la información mutua
 
 
-La información mutua para dos variables  $X$, $Y$ aleatorias se puede definir como 
+La información mutua para dos variables  $X$, $Y$ aleatorias se puede definit como 
 $$
 MI(X,Y) = S(X) +  S(Y) + S(X,Y),
 $${#eq-informacion-mutua}
@@ -48,21 +45,23 @@ A la vista de los resultados de cada trozo podemos afirmar que el *stride* no ju
 
 Es por ello que vamos a fijar de ahora en adelante $stride = bits$  y vamos a aumentar el ancho de ventana, tomaremos las siguientes casuísticas y las compararemos a posteriori: 
 
-La condición de tamaño de ventana: 
-- No genera ninguna ventana falsa. 
-- Cuantil $0.05$ de las distancias entre *spikes*.
-- Aceptaremos un $5\%$ de ventanas falsas. 
+La condición de tamaño de ventana:   
+
+- No genera ninguna ventana falsa.   
+- Cuantil $0.05$ de las distancias entre *spikes*.  
+- Aceptaremos un $5\%$ de ventanas falsas.   
 
 La implementación del cálculo de ventana se realiza en `/src/spike_distance.py` puede ejecutar tal fichero o hacer `make calcular_distancia_spike` el código se segmenta en: 
-- Calcular las distancias entre spikes consecutivos.
-- Calcular la distancia mínima.
-- Calcular el cuantil $0.05$ de las distancias calculadas. 
-- Realizar una búsqueda binaria del tamaño de ventana que hace que al rededor del $5\%$ sean ventanas falsas. 
 
-Los resultados han sido los siguientes: 
+- Calcular las distancias entre spikes consecutivos.  
+- Calcular la distancia mínima.  
+- Calcular el cuantil $0.05$ de las distancias calculadas.   
+- Realizar una búsqueda binaria del tamaño de ventana que hace que al rededor del $5\%$ sean ventanas falsas.   
+
+Los resultados han sido los recogidos en @tbl-distancias: 
 
 Trozo | Neurona | Intervalo mínimo entre spikes |   Media distancias | std   
- --- | --- | ---  | --- | --- | --- | --- | --- | ---  
+ --- | --- | ---  | --- | ---
  C  | LP | 24| 9994824.93 | 6056023.94  
  C  | VD | 10| 10229353.49 | 5779379.91  
  R  | LP | 16| 8356519.06 | 4859624.69  
@@ -82,18 +81,6 @@ Trozo | Neurona | Distancia cuantil 0.05
 :  Distancia de *spike* para cuantil de distancia de $0.05$ {#tbl-distancias-cuantil}
 
 Trozo | Neurona | Porcentaje ventanas falsas | Distanca admitir ventanas falsas    
-
-Trozo | Neurona | Tamaño cuantil 0.05 | Porcentaje ventanas falsas | Tamaño admitir ventanas falsas    
- --- | --- | ---  | --- | --- 
- C  | LP | 108| 4.91% | 186 
- C  | VD | 86| 4.94% | 207 
- R  | LP | 41| 5.01% | 124   
- R  | VD | 96| 4.92% | 213  
- G  | LP | 26336| 4.72% | 153362 
- G  | VD | 92| 5.02% | 247 | 8413845.72 
-: Tamaño de ventana para cuantil de distancia de $0.05$ {#tbl-distancias-cuantil}
-
-Trozo | Neurona | Porcentaje ventanas falsas | Distanca admitir ventanas falsas    
  --- | ---  | --- | --- 
  C  | LP | 4.91% | 186 
  C  | VD | 4.94% | 207 
@@ -103,9 +90,7 @@ Trozo | Neurona | Porcentaje ventanas falsas | Distanca admitir ventanas falsas
  G  | VD |  5.02% | 247 |
 : Tamaño de ventana en función de un porcentaje de ventanas falsas {#tbl-distancias-falsas}
 
-Es por ello que ampliaremos el tamaño de ventana es decir transformaremos la señal binaria de cada trozo. 
-
-Para ello el nuevo acción entiende que solo habrá un $5%$ de ventanas falsas 
+Es por ello que ampliaremos el tamaño de ventana es decir transformaremos la señal binaria de cada trozo. Ahora habrá un máximo de $5\%$ de ventanas falsas. 
 
 
 Donde el tamaño de ventana nuevo, para cada trozo vendrá dado como: 
@@ -114,9 +99,6 @@ $$
 \text{tamaño ventana}
 = 
 \min(dist LP, dist VD )+1
-%\lfloor
-%\frac{\min(dist LP, dist VD ) -1}{2}
-%\rfloor
 $$
 
 
@@ -128,8 +110,7 @@ G  | 66 | 93 | 248
 
 : Ventanas máximas calculadas {#tbl-radio-action}
 
-Las nuevas señales binarias vendrán dadas del siguiente modo: 
-
+Las nuevas señales binarias vendrán dadas por: 
 
 $$
 \text{señal binaria nueva}[i] = 
@@ -137,6 +118,5 @@ $$
 $$
 De esta manera la señal tendrá un uno si ya lo había o un dos si no lo había. 
 
-##Ejecución del experimento
-
+Mostraremos la información mutua calculada en la sección siguiente.
 
