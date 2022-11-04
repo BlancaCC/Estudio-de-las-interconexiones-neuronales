@@ -80,7 +80,7 @@ if __name__ == '__main__':
         plt.legend()
         plt.xlabel('Tamaño de palabra')
         plt.ylabel('IM')
-        plt.savefig(path+folder+f'IM_variando_alfabeto_a={a}', bbox_inches='tight')
+        plt.savefig(path+folder+f'IM_variando_palabra_a={a}', bbox_inches='tight')
         #plt.show()
         plt.close()
 

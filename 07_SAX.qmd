@@ -171,24 +171,42 @@ La tendencia a mejorar con el tamaño del alfabeto puede observarse gráficament
 
 :::{#fig-SAX-C-IM-bits  layout-ncol=3}
 
-![](img/SAX/trozoC/alfabeto/IM_variando_alfabeto_a=1.png) 
+![](img/SAX/trozoC/alfabeto/IM_variando_alfabeto_w=187.png)
+ 
 
-![](img/SAX/trozoC/alfabeto/IM_variando_alfabeto_a=2.png)
+![](img/SAX/trozoC/alfabeto/IM_variando_alfabeto_w=87.png)
+ 
+![](img/SAX/trozoC/alfabeto/IM_variando_alfabeto_w=11.png)
+ 
+:::
 
-![](img/SAX/trozoC/alfabeto/IM_variando_alfabeto_a=5.png)
+A continuación se muestra cómo influye el tamño de palabra 
 
-![](img/SAX/trozoC/alfabeto/IM_variando_alfabeto_a=10.png)
+:::{#fig-SAX-C-IM-bits  layout-ncol=3}
 
-![](img/SAX/trozoC/alfabeto/IM_variando_alfabeto_a=20.png)
+![](img/SAX/trozoC/palabra/IM_variando_palabra_a=1.png) 
 
-![](img/SAX/trozoC/alfabeto/IM_variando_alfabeto_a=50.png)
+![](img/SAX/trozoC/palabra/IM_variando_palabra_a=2.png)
+
+![](img/SAX/trozoC/palabra/IM_variando_palabra_a=5.png)
+
+![](img/SAX/trozoC/palabra/IM_variando_palabra_a=10.png)
+
+![](img/SAX/trozoC/palabra/IM_variando_palabra_a=20.png)
+
+![](img/SAX/trozoC/palabra/IM_variando_palabra_a=50.png)
 
 Información mutua variando bits para para trozo C
 :::
 
 
+Las conclusiones que se sacan es que cuando muchos 
+*samples* se ven involucrados la información se emborrona, sin el añadir  más símbolos la información mutua mejora en comparión con la primera codificación. 
 
-#### Comparativa con nuestra la codificación primera 
+Un problema que tiene es que no contempla aportar la información para los spikes. 
+
+
+
 
 
 
