@@ -117,7 +117,37 @@ Puede ejecutar el experimento realizando `make calcular_sax` o directamente escr
 Puede encontrar los resultados completos en el apéndice sección
 \ref{appendix:codification_sax_a}. 
 
-El análisis de los mismos son los siguientes: 
+Una representación gráfica de los mismos con un mapa de color sería la siguiente, tenga presente que a más claro mayor es la entropía: 
+
+:::{#fig-A-mapa-calor  layout-ncol=3}
+
+![](img/SAX/trozoC/heatmap/mapaCalor_bits=1.png)
+
+![](img/SAX/trozoC/heatmap/mapaCalor_bits=2.png)
+
+![](img/SAX/trozoC/heatmap/mapaCalor_bits=3.png)
+
+![](img/SAX/trozoC/heatmap/mapaCalor_bits=4.png)
+
+![](img/SAX/trozoC/heatmap/mapaCalor_bits=5.png)
+
+![](img/SAX/trozoC/heatmap/mapaCalor_bits=6.png)
+
+![](img/SAX/trozoC/heatmap/mapaCalor_bits=7.png)
+
+![](img/SAX/trozoC/heatmap/mapaCalor_bits=8.png)
+
+Mapa de color de Información mutua variando en función del número de 
+bits, tamaño de palabra $w'$ y tamaño de alfabeto $a$.
+:::
+
+A la vista de los resultados uno se da cuenta que por lo general aumentar el 
+ancho de ventana mejora los resultados, pero que llegado a cierto punto va en detrimento. 
+
+El ancho de ventana en este problema se puede ampliar en tres aspectos: 
+
+- **Tamaño de palabra para el cálculo de la información mutua**, lo que nosotros hemos denominado durante todo el experimento como bits $b$.  
+- **Ta
 
 - **Aumentar bits no significa mayor cantidad de información mutua**. Fijadas la palabra y  tamaño de alfabeto, 
 si bien al  hacer crecer el número de bits se aprecia una tendencia creciente de la información mutua, existen ciertas excepciones. 
@@ -203,7 +233,7 @@ Información mutua variando bits para para trozo C
 Las conclusiones que se sacan es que cuando muchos 
 *samples* se ven involucrados la información se emborrona, sin el añadir  más símbolos la información mutua mejora en comparión con la primera codificación. 
 
-Un problema que tiene es que no contempla aportar la información para los spikes. 
+Un problema que tiene es que no contempla aportar la información para los spikes.
 
 
 
