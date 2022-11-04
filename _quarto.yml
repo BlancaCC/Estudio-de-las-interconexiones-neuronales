@@ -11,6 +11,8 @@ book:
     - intro.qmd
     - 04_calculo_spikes.qmd
     - 05_calculo_informacion_mutua.qmd
+    - 06_entropia_normalizada.qmd
+    - 07_SAX.qmd
     - summary.qmd
     - references.qmd
     - appendix.qmd
