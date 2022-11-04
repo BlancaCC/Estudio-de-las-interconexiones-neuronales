@@ -10,16 +10,17 @@ En nuestro caso vamos a proponer el sistema de codificación SAX (ver artículo 
 SAX permite reducir una serie temporal de tamaño $n$
 a otra de tamaño $w$ usualmente $w << n$. 
 
-$a$ será el tamaño del alfabeto, $a > 2$. 
+El tamaño del alfabeto,$a$, será  con la restricción de que 
+$a > 2$. 
 
 Los pasos a seguir son: 
 
-1. Transformación de los datos en *PAA* *Piecewise Aggregate Approximation*
+1. Transformación de los datos en **PAA** *Piecewise Aggregate Approximation*
 
 De la siguiente manera: 
-Una serie temporal $C$ de longitud $n$ puede ser represetada en un vector $\bar C$ de dimensión $w$
+Una serie temporal $C$ de longitud $n$ puede ser represetada en un vector $\bar C$ de dimensión $w$.
 
-Donde el elemento i-ésimo viene dado por 
+El elemento i-ésimo de $\bar C$ viene dado por 
 
 $$
 \bar c_i
@@ -34,17 +35,17 @@ $$
 Notemos que esto no es más que una media de los elementos contiguos. 
 
 
-2. Discretización 
+2. **Discretización** 
 
-Cada componente de la nueva señal transformada será mapeado por un símbolo en función del rango de valor en que se encuentre. 
+Cada componente de la nueva señal transformada será mapeado por 
+un símbolo en función del rango de valor en que se encuentre. 
 
-Para ello se definen los *breakpoints* qu eno son más que una lista de números $B= b_1, \ldots, b_{a-1}$ de tal forma que su area bajo un normal $\mathcal{N}(0,1)$ sea para cada uno de ellos 
+Para ello se definen los *breakpoints*, queno son más que una lista de números $B= b_1, \ldots, b_{a-1}$ de tal forma que su area bajo un normal $\mathcal{N}(0,1)$ sea para cada uno de ellos 
 $\frac{1}{a}$.
 Además se tiene que $b_0 = -\infty$ y  $b_a = +\infty$. 
 
 De esta manera formaremos las palabras $\hat C$
 que vendrá dada como 
-
 $$
 \hat c_i = \alpha_j
 \text{, sii  }
@@ -52,6 +53,8 @@ $$
 $$
 
 y con esto se obtendría la nueva señal. 
+
+
 
 ## Observaciones
 
@@ -63,7 +66,135 @@ Notemos que se tienen dos variables libres en este sistema:
 
 ## Sobre nuestra implementación 
 
-El código relacionado con el algoritmo se encuentra en el fichero `src/SAX.py`. 
+Puede encontrar la implementación de los algoritmos descritos en 
+`src/SAX.py`, en ellos se encuentran fielmente escritos los pasos mencionados.  
+
+Cabe destacar que  se han tomado las siguientes decisiones en diseño: 
+
+- Por eficiencia y poder reutilizar el código de información mutua se ha tomado por alfabeto a un subconjunto de tamaño $a$ de los números reales. 
+
+
+
+## Experimentación con SAX  
+
+### Descripción del experimento   
+
+Pretendemos calcular la información mutua en distintas cirscunstancias y compararlas
+con los datos anteriores. 
+
+Con este fin $w$ el tamaño de la nueva señal de un trozo $T$ vendrá dado por 
+$$
+w = \frac{\text{Tamaño de la señal del trozo } T}{ w'}
+$$$
+donde $w'$ es el tamaño de palabra que se usó en el trozo $T$ de los apartados anteriores. 
+
+Por limitaciones temporales y tiempo de costo se han seleccionado las siguientes combinaciones de prueba: 
+
+
+
+| Trozo | Tamaños $w'$ | 
+| :-: | :-: | 
+| C | 11,87,187 | 
+|R| 17,42,125|  
+|G|66, 93,248| 
+
+: Combinaciones de tamaño de palabra $w'$ para SAX que se van a realizar{#tbl-sax-palabra} 
+
+Tamaños de alfabeto: $1,2,5,10,20$ y $50$
+independientemente del trozo que sea. 
+
+Tamaños de bits con el que calcular la información mutua: $1,2,3,4,5,6,7$ y $8$ independientemente del trozo que sea.
+
+Para el experimento se han realizado todas las combinaciones posibles
+ de estos parámetros y se ha calculado la información mutua pertinente. 
+
+Puede ejecutar el experimento realizando `make calcular_sax` o directamente escribiendo `python src/experiment_sax_mi.py`. 
+
+### Resultados obtenidos   
+
+### Trozo C   
+
+Puede encontrar los resultados completos en el apéndice sección
+\ref{appendix:codification_sax_a}. 
+
+El análisis de los mismos son los siguientes: 
+
+- **Aumentar bits no significa mayor cantidad de información mutua**. Fijadas la palabra y  tamaño de alfabeto, 
+si bien al  hacer crecer el número de bits se aprecia una tendencia creciente de la información mutua, existen ciertas excepciones. 
+
+Combinaciones para que la tendencia no es creciente: 
+
+| words | alphabet size |   
+| :-: | :-: | 
+| 87 | 20 |  
+| 187 | 20 | 
+| 87 | 50 | 
+| 187 | 50 | 
+
+: Tamaño de palabra y tamaño de alfabeto para los cuales la IM no aumenta con el número de bits {#tbl-resultados-sax-trozo-a-bits}
+
+
+:::{#fig-SAX-C-IM-bits  layout-ncol=2}
+
+![](img/SAX/trozoC/bits/IM_variando_bits_w=11.png)
+
+![](img/SAX/trozoC/bits/IM_variando_bits_w=87.png)
+
+![](img/SAX/trozoC/bits/IM_variando_bits_w=187.png)
+
+Información mutua variando bits para para trozo C
+:::
+
+El máximo de IM se alcanza para 8 bits, con un tamaño de palabra 11 y tamaño de alfabeto 50. 
+
+La información mutua máxima se alcanza en
+
+bits|words|alphabet_size|IM(LP,VD)  
+--- | --- | --- | ---   
+8 | 11 | 50 | 17.477040  
+7 | 11 | 50 | 17.464702  
+6 | 11 | 50 | 17.349276  
+5 | 11 | 50 | 16.866878  
+8 | 11 | 20 | 16.268008  
+7 | 11 | 20 | 15.786441  
+5 | 87 | 50 | 15.349300  
+6 | 87 | 50 | 15.183218  
+4 | 87 | 50 | 15.093791  
+6 | 87 | 20 | 15.058446  
+
+: Combinaciones de información mutua máxima  {#tbl-resultados-sax-trozo-a-bits-top-im}
+
+A la vista de estos resultados podemos observar que para tamaños de bit lo suficientemente grande los parámetros clave han sido el tamaño de palabra $11$ y un alfabeto de tamaño $50$. 
+
+
+La tendencia a mejorar con el tamaño del alfabeto puede observarse gráficamente a continuación: 
+
+:::{#fig-SAX-C-IM-bits  layout-ncol=3}
+
+![](img/SAX/trozoC/alfabeto/IM_variando_alfabeto_a=1.png) 
+
+![](img/SAX/trozoC/alfabeto/IM_variando_alfabeto_a=2.png)
+
+![](img/SAX/trozoC/alfabeto/IM_variando_alfabeto_a=5.png)
+
+![](img/SAX/trozoC/alfabeto/IM_variando_alfabeto_a=10.png)
+
+![](img/SAX/trozoC/alfabeto/IM_variando_alfabeto_a=20.png)
+
+![](img/SAX/trozoC/alfabeto/IM_variando_alfabeto_a=50.png)
+
+Información mutua variando bits para para trozo C
+:::
+
+
+
+#### Comparativa con nuestra la codificación primera 
+
+
+
+
+
+
 
 
 ## Notas  
