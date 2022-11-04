@@ -42,3 +42,6 @@ calcular_sax:
 	python src/experiment_sax_mi.py C > ./experiment_results/SAX/mutual_information_C.csv &
 	python src/experiment_sax_mi.py R > ./experiment_results/SAX/mutual_information_R.csv &
 	python src/experiment_sax_mi.py G > ./experiment_results/SAX/mutual_information_G.csv &
+
+analizar_sax:
+	python src/analising_sax.py > ./experiment_results/SAX/analisis_SAX.txt 

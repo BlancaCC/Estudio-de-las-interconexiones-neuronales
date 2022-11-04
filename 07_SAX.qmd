@@ -37,10 +37,10 @@ Notemos que esto no es más que una media de los elementos contiguos.
 
 2. **Discretización** 
 
-Cada componente de la nueva señal transformada será mapeado por 
+Cada componente de la nueva señal transformada será mapeada por 
 un símbolo en función del rango de valor en que se encuentre. 
 
-Para ello se definen los *breakpoints*, queno son más que una lista de números $B= b_1, \ldots, b_{a-1}$ de tal forma que su area bajo un normal $\mathcal{N}(0,1)$ sea para cada uno de ellos 
+Para ello se definen los *breakpoints*, que no son más que una lista de números $B= b_1, \ldots, b_{a-1}$ de tal forma que su area bajo un normal $\mathcal{N}(0,1)$ sea para cada uno de ellos 
 $\frac{1}{a}$.
 Además se tiene que $b_0 = -\infty$ y  $b_a = +\infty$. 
 
@@ -85,10 +85,10 @@ con los datos anteriores.
 Con este fin $w$ el tamaño de la nueva señal de un trozo $T$ vendrá dado por 
 $$
 w = \frac{\text{Tamaño de la señal del trozo } T}{ w'}
-$$$
+$$
 donde $w'$ es el tamaño de palabra que se usó en el trozo $T$ de los apartados anteriores. 
 
-Por limitaciones temporales y tiempo de costo se han seleccionado las siguientes combinaciones de prueba: 
+Por limitaciones computacionales se han seleccionado las siguientes combinaciones de prueba: 
 
 
 
@@ -98,7 +98,7 @@ Por limitaciones temporales y tiempo de costo se han seleccionado las siguientes
 |R| 17,42,125|  
 |G|66, 93,248| 
 
-: Combinaciones de tamaño de palabra $w'$ para SAX que se van a realizar{#tbl-sax-palabra} 
+: Combinaciones de tamaño de palabra $w'$ para SAX que se van a realizar {#tbl-sax-palabra} 
 
 Tamaños de alfabeto: $1,2,5,10,20$ y $50$
 independientemente del trozo que sea. 
@@ -117,7 +117,7 @@ Puede ejecutar el experimento realizando `make calcular_sax` o directamente escr
 Puede encontrar los resultados completos en el apéndice sección
 \ref{appendix:codification_sax_a}. 
 
-Una representación gráfica de los mismos con un mapa de color sería la siguiente, tenga presente que a más claro mayor es la entropía: 
+Una representación gráfica de los mismos con un mapa de color sería la mostrada en la figura @fig-A-mapa-calor; para su interpretación  tenga presente que a más claro mayor es la entropía.
 
 :::{#fig-A-mapa-calor  layout-ncol=3}
 
@@ -137,22 +137,23 @@ Una representación gráfica de los mismos con un mapa de color sería la siguie
 
 ![](img/SAX/trozoC/heatmap/mapaCalor_bits=8.png)
 
-Mapa de color de Información mutua variando en función del número de 
+Mapa de color de la información mutua variando en función del número de 
 bits, tamaño de palabra $w'$ y tamaño de alfabeto $a$.
 :::
 
 A la vista de los resultados uno se da cuenta que por lo general aumentar el 
 ancho de ventana mejora los resultados, pero que llegado a cierto punto va en detrimento. 
 
-El ancho de ventana en este problema se puede ampliar en tres aspectos: 
+El ancho de ventana en este problema se puede ampliar en dos aspectos y tiene diferentes matices:  
 
-- **Tamaño de palabra para el cálculo de la información mutua**, lo que nosotros hemos denominado durante todo el experimento como bits $b$.  
-- **Ta
+- **Tamaño de palabra para el cálculo de la información mutua**, lo que nosotros hemos denominado durante todo el experimento como bits $b$. Tiene en cuenta eventos temporales situaciones contiguas de tiempo. 
 
-- **Aumentar bits no significa mayor cantidad de información mutua**. Fijadas la palabra y  tamaño de alfabeto, 
+- **Tamaño de palabra de reducción**, esto es lo que nosotros hemos denotado como $w'$, reduce a un símbolo la media de valores de esa palabra. 
+
+Una moraleja que se obtiene de aquí es que  **aumentar el número de bits no significa mayor cantidad de información mutua**. Fijadas la palabra y  tamaño de alfabeto, 
 si bien al  hacer crecer el número de bits se aprecia una tendencia creciente de la información mutua, existen ciertas excepciones. 
 
-Combinaciones para que la tendencia no es creciente: 
+Como muestra de ello se tienen las siguiente combinaciones, para las  que aumentar el número de bits no implica una mejora en la información mutua: 
 
 | words | alphabet size |   
 | :-: | :-: | 
@@ -163,6 +164,7 @@ Combinaciones para que la tendencia no es creciente:
 
 : Tamaño de palabra y tamaño de alfabeto para los cuales la IM no aumenta con el número de bits {#tbl-resultados-sax-trozo-a-bits}
 
+Queda reflejado su valor en la @fig-SAX-C-IM-bits
 
 :::{#fig-SAX-C-IM-bits  layout-ncol=2}
 
@@ -175,9 +177,10 @@ Combinaciones para que la tendencia no es creciente:
 Información mutua variando bits para para trozo C
 :::
 
+
 El máximo de IM se alcanza para 8 bits, con un tamaño de palabra 11 y tamaño de alfabeto 50. 
 
-La información mutua máxima se alcanza en
+Si ordenamos los parámetros por su eficiencia mutua puede encontrar a los diez primeros en la @tbl-resultados-sax-trozo-a-bits-top-im .  
 
 bits|words|alphabet_size|IM(LP,VD)  
 --- | --- | --- | ---   
@@ -197,22 +200,21 @@ bits|words|alphabet_size|IM(LP,VD)
 A la vista de estos resultados podemos observar que para tamaños de bit lo suficientemente grande los parámetros clave han sido el tamaño de palabra $11$ y un alfabeto de tamaño $50$. 
 
 
-La tendencia a mejorar con el tamaño del alfabeto puede observarse gráficamente a continuación: 
+La tendencia a mejorar con el tamaño del alfabeto puede observarse gráficamente en la @fig-SAX-C-IM-alfabeto : 
 
-:::{#fig-SAX-C-IM-bits  layout-ncol=3}
+:::{#fig-SAX-C-IM-alfabeto  layout-ncol=3}
 
 ![](img/SAX/trozoC/alfabeto/IM_variando_alfabeto_w=187.png)
  
-
 ![](img/SAX/trozoC/alfabeto/IM_variando_alfabeto_w=87.png)
  
 ![](img/SAX/trozoC/alfabeto/IM_variando_alfabeto_w=11.png)
  
 :::
 
-A continuación se muestra cómo influye el tamño de palabra 
+A continuación, en la @fig-SAX-C-IM-palabra  se muestra cómo influye el tamaño de palabra 
 
-:::{#fig-SAX-C-IM-bits  layout-ncol=3}
+:::{#fig-SAX-C-IM-palabra  layout-ncol=3}
 
 ![](img/SAX/trozoC/palabra/IM_variando_palabra_a=1.png) 
 
@@ -231,13 +233,136 @@ Información mutua variando bits para para trozo C
 
 
 Las conclusiones que se sacan es que cuando muchos 
-*samples* se ven involucrados la información se emborrona, sin el añadir  más símbolos la información mutua mejora en comparión con la primera codificación. 
+*samples* se ven involucrados *la información se diluye* y por tanto la entropía baja. 
+Como era de esperar, al añadir más símbolos la información mutua mejora en comparación con la primera codificación, la idea intuitiva de esto subyace en que tenemos *más pistas* de lo que va a ocurrir. 
 
 Un problema que tiene es que no contempla aportar la información para los spikes.
 
+## Comparativa  
 
 
+### Ventajas  
 
+- La **reducción de tamaño** de la señal  permite un tratamiento más rápido. 
+- Discretización de los valores que puede tomar la señal, esto simplifica su tratamiento. 
+
+### Desventajas  
+
+- Pérdida de información. 
+- Rigidez a la hora de calcular $\bar C$ ya que solo es el promedio de los datos de una palabra.
+- Selección de hiperparámetros libre, se desconoce un método eficaz y rigoroso como criterio de selección o descarte de los hiperparámetros $a$ y
+$w$. 
+
+## Trozo  R 
+
+Se ha repetido el mismo análisis para el resto de trozos R y G, las conclusiones han sido equivalentes para estos dos últimos.  
+
+Puede encontrar los resultados numéricos del trozo R en el apéndice \ref{appendix:codification_sax_r} (o en la carpeta `experiment_results/SAX`).
+
+Puede contemplar el mapa de calor de la información mutua en la @fig-R-mapa-calor  
+
+:::{#fig-R-mapa-calor  layout-ncol=3}
+
+![](img/SAX/trozoR/heatmap/mapaCalor_bits=1.png)
+
+![](img/SAX/trozoR/heatmap/mapaCalor_bits=2.png)
+
+![](img/SAX/trozoR/heatmap/mapaCalor_bits=3.png)
+
+![](img/SAX/trozoR/heatmap/mapaCalor_bits=4.png)
+
+![](img/SAX/trozoR/heatmap/mapaCalor_bits=5.png)
+
+![](img/SAX/trozoR/heatmap/mapaCalor_bits=6.png)
+
+![](img/SAX/trozoR/heatmap/mapaCalor_bits=7.png)
+
+![](img/SAX/trozoR/heatmap/mapaCalor_bits=8.png)
+
+Mapa de color de la información mutua variando en función del número de 
+bits, tamaño de palabra $w'$ y tamaño de alfabeto $a$.
+:::
+
+
+Los diez mejores valore de información mutua han sido 
+
+bits | words | alphabet_size | IM(LP,VD)  
+--- | --- | --- | ---     
+6 | 17 | 5 | 6.977234
+7 | 17 | 5 | 6.923350
+8 | 17 | 5 | 6.813161
+5 | 17 | 5 | 6.790366
+8 | 17 | 2 | 6.218410
+7 | 17 | 2 | 6.061772
+5 | 42 | 5 | 6.053265
+6 | 42 | 5 | 5.940968
+7 | 42 | 5 | 5.754503
+7 | 42 | 2 | 5.612413
+
+: Combinaciones de información mutua máxima para el trozo R  {#tbl-resultados-sax-trozo-r-bits-top-im}
+
+## Trozo G
+  
+Puede encontrar los resultados numéricos del trozo G en el apéndice \ref{appendix:codification_sax_g} (o en la carpeta `experiment_results/SAX`).
+
+Puede contemplar el mapa de calor de la información mutua en la @fig-G-mapa-calor , preste atención a los valores del rango con cuidado. 
+
+:::{#fig-G-mapa-calor  layout-ncol=3}
+
+![](img/SAX/trozoG/heatmap/mapaCalor_bits=1.png)
+
+![](img/SAX/trozoG/heatmap/mapaCalor_bits=2.png)
+
+![](img/SAX/trozoG/heatmap/mapaCalor_bits=3.png)
+
+![](img/SAX/trozoG/heatmap/mapaCalor_bits=4.png)
+
+![](img/SAX/trozoG/heatmap/mapaCalor_bits=5.png)
+
+![](img/SAX/trozoG/heatmap/mapaCalor_bits=6.png)
+
+![](img/SAX/trozoG/heatmap/mapaCalor_bits=7.png)
+
+![](img/SAX/trozoG/heatmap/mapaCalor_bits=8.png)
+
+Mapa de color de la información mutua variando en función del número de 
+bits, tamaño de palabra $w'$ y tamaño de alfabeto $a$.
+:::
+
+
+bits | words | alphabet_size | IM(LP,VD)
+--- | --- | --- | ---    
+5   |  66 | 50  | 15.460422  
+6 | 66 | 5 | 5.318634  
+6 | 66 | 2 | 5.180586  
+7 | 66 | 5 | 5.112652  
+7 | 66 | 2 | 5.077938  
+5 | 93 | 5 | 5.059765  
+8 | 66 | 5 | 4.921054  
+8 | 66 | 2 | 4.911715  
+4 | 66 | 5 | 4.905467    
+4 | 93 | 5 | 4.890374  
+
+: Combinaciones de información mutua máxima para el trozo G  {#tbl-resultados-sax-trozo-g-bits-top-im}
+
+## Conclusiones trozo C y G 
+
+TODO
+
+## Futuros campos que contemplar esta codificación   
+
+A la hora de presentar el problema se indica que el tamaño final de la cadena es $w$, sería interesante reenfocarlo como nosotros hemos hecho, en vez de que la media se de los $w_0/w$ definir la variable $w'$ que sería el número de elementos sobre los que se haría la media. 
+
+La longitud por tanto vendría dada como $w_0/w'$ y lo que es más interesante 
+se podría jugar con el *stride* (desplazamiento de ventana) y hacer de la media una pondera. 
+
+Además el problema de utilizar percentiles equidistantes es que se pierde 
+la posibilidad de que con un espacio menor de combinaciones posible entre todos los símbolos del alfabeto se pueda codificar evento de cierto tipo, como por ejemplo los *spikes* en nuestro algoritmo. 
+
+Esto es generalizar y abstraer el problema.
+
+De esta manera
+ Se podían plantear una generalización de lo que nos
 
 
 

@@ -1,0 +1,127 @@
+La IM máxima del trozo C es none                     
+trozo                   C
+bits                    8
+words                  11
+alphabet_size          50
+IM(LP,VD)        17.47704
+Name: 127, dtype: object.
+El top de IM es de 10
+    none trozo  bits  words  alphabet_size  IM(LP,VD)
+127          C     8     11             50  17.477040
+126          C     7     11             50  17.464702
+125          C     6     11             50  17.349276
+124          C     5     11             50  16.866878
+103          C     8     11             20  16.268008
+102          C     7     11             20  15.786441
+132          C     5     87             50  15.349300
+133          C     6     87             50  15.183218
+131          C     4     87             50  15.093791
+109          C     6     87             20  15.058446
+La IM máxima del trozo C es none                     
+trozo                   C
+bits                    1
+words                 187
+alphabet_size           1
+IM(LP,VD)        0.000109
+Name: 16, dtype: object.
+El top de IM es de 10
+   none trozo  bits  words  alphabet_size  IM(LP,VD)
+16          C     1    187              1   0.000109
+40          C     1    187              2   0.000214
+0           C     1     11              1   0.000248
+8           C     1     87              1   0.000285
+32          C     1     87              2   0.000359
+24          C     1     11              2   0.000518
+17          C     2    187              1   0.000741
+1           C     2     11              1   0.001029
+9           C     2     87              1   0.001079
+33          C     2     87              2   0.001362
+Imágenes del trozo C guardadas en ./img/SAX/trozoC/ con éxito
+==================== Analizando trozo R
+/Users/blancacanocamarero/miniforge3/envs/tensorflow/lib/python3.9/site-packages/pandas/util/_decorators.py:311: ParserWarning:
+
+Length of header or names does not match length of data. This leads to a loss of data with index_col=False.
+
+La IM máxima del trozo R es none                      
+trozo                    R
+bits                     6
+words                   17
+alphabet_size           50
+IM(LP,VD)        16.977234
+Name: 125, dtype: object.
+El top de IM es de 10
+    none trozo  bits  words  alphabet_size  IM(LP,VD)
+125          R     6     17             50  16.977234
+126          R     7     17             50  16.923350
+127          R     8     17             50  16.813161
+124          R     5     17             50  16.790366
+103          R     8     17             20  16.218410
+102          R     7     17             20  16.061772
+132          R     5     42             50  16.053265
+133          R     6     42             50  15.940968
+134          R     7     42             50  15.754503
+110          R     7     42             20  15.612413
+La IM máxima del trozo R es none                     
+trozo                   R
+bits                    1
+words                 125
+alphabet_size           1
+IM(LP,VD)        0.000109
+Name: 16, dtype: object.
+El top de IM es de 10
+   none trozo  bits  words  alphabet_size  IM(LP,VD)
+16          R     1    125              1   0.000109
+8           R     1     42              1   0.000154
+0           R     1     17              1   0.000240
+17          R     2    125              1   0.000332
+32          R     1     42              2   0.000351
+40          R     1    125              2   0.000391
+9           R     2     42              1   0.000635
+24          R     1     17              2   0.000640
+18          R     3    125              1   0.000878
+1           R     2     17              1   0.000918
+Imágenes del trozo R guardadas en ./img/SAX/trozoR/ con éxito
+==================== Analizando trozo G
+/Users/blancacanocamarero/miniforge3/envs/tensorflow/lib/python3.9/site-packages/pandas/util/_decorators.py:311: ParserWarning:
+
+Length of header or names does not match length of data. This leads to a loss of data with index_col=False.
+
+La IM máxima del trozo G es none                      
+trozo                    G
+bits                     5
+words                   66
+alphabet_size           50
+IM(LP,VD)        15.460422
+Name: 124, dtype: object.
+El top de IM es de 10
+    none trozo  bits  words  alphabet_size  IM(LP,VD)
+124          G     5     66             50  15.460422
+125          G     6     66             50  15.318634
+101          G     6     66             20  15.180586
+126          G     7     66             50  15.112652
+102          G     7     66             20  15.077938
+132          G     5     93             50  15.059765
+127          G     8     66             50  14.921054
+103          G     8     66             20  14.911715
+123          G     4     66             50  14.905467
+131          G     4     93             50  14.890374
+La IM máxima del trozo G es none                     
+trozo                   G
+bits                    1
+words                  66
+alphabet_size           1
+IM(LP,VD)        0.000159
+Name: 0, dtype: object.
+El top de IM es de 10
+   none trozo  bits  words  alphabet_size  IM(LP,VD)
+0           G     1     66              1   0.000159
+16          G     1    248              1   0.000233
+40          G     1    248              2   0.000253
+32          G     1     93              2   0.000359
+8           G     1     93              1   0.000366
+24          G     1     66              2   0.000384
+17          G     2    248              1   0.000815
+1           G     2     66              1   0.000830
+9           G     2     93              1   0.001064
+64          G     1    248              5   0.001459
+Imágenes del trozo G guardadas en ./img/SAX/trozoG/ con éxito
