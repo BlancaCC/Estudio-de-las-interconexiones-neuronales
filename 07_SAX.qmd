@@ -8,19 +8,16 @@ En nuestro caso vamos a proponer el sistema de codificación SAX (ver artículo 
 ## Descripción del sistema de codificación SAX  
 
 SAX permite reducir una serie temporal de tamaño $n$
-a otra de tamaño $w$ usualmente $w << n$. 
-
-El tamaño del alfabeto,$a$, será  con la restricción de que 
+a otra de tamaño $w$, usualmente $w << n$. El tamaño del alfabeto, $a$, será  con la restricción de que 
 $a > 2$. 
 
-Los pasos a seguir son: 
+Los pasos que se van a seguir son: 
 
 1. Transformación de los datos en **PAA** *Piecewise Aggregate Approximation*
 
-De la siguiente manera: 
-Una serie temporal $C$ de longitud $n$ puede ser represetada en un vector $\bar C$ de dimensión $w$.
-
-El elemento i-ésimo de $\bar C$ viene dado por 
+Llevaremos a cabo dicha transformación de la siguiente manera: 
+- En primer lugar, representaremos una serie temporal $C$ de longitud $n$, en un vector $\bar C$ de dimensión $w$. Para ello, 
+tomaremos que el elemento i-ésimo de $\bar C$ viene definido como:
 
 $$
 \bar c_i
@@ -32,27 +29,27 @@ $$
 c_j.
 $$
 
-Notemos que esto no es más que una media de los elementos contiguos. 
+Cabe destacar, que esto no es más que una media de los elementos adyacentes. 
 
 
-2. **Discretización** 
+2. **Proceso de discretización** 
 
 Cada componente de la nueva señal transformada será mapeada por 
 un símbolo en función del rango de valor en que se encuentre. 
 
-Para ello se definen los *breakpoints*, que no son más que una lista de números $B= b_1, \ldots, b_{a-1}$ de tal forma que su area bajo un normal $\mathcal{N}(0,1)$ sea para cada uno de ellos 
+Para ello definiremos los *breakpoints*, que no son más que una lista de números $B= b_1, \ldots, b_{a-1}$ de tal forma que su area bajo una normal $\mathcal{N}(0,1)$ será para cada uno de ellos 
 $\frac{1}{a}$.
 Además se tiene que $b_0 = -\infty$ y  $b_a = +\infty$. 
 
 De esta manera formaremos las palabras $\hat C$
-que vendrá dada como 
+que vendrán dadas del siguiente modo: 
 $$
 \hat c_i = \alpha_j
 \text{, sii  }
 \beta_{j-1} \leq \beta_j
 $$
 
-y con esto se obtendría la nueva señal. 
+obteniendo, así, la nueva señal. 
 
 
 
@@ -60,18 +57,18 @@ y con esto se obtendría la nueva señal.
 
 Notemos que se tienen dos variables libres en este sistema: 
 
--  $w$ el tamaño de PAA, que de manera implícita debe de ser un divisor de $n$ el tamaño original para mayor comodidad. 
+-  $w$ como el tamaño de PAA, que de manera implícita debe de ser un divisor de $n$, el tamaño original, para mayor comodidad. 
 
-- $a$ el tamaño del alfabeto. 
+- $a$ como el tamaño del alfabeto. 
 
 ## Sobre nuestra implementación 
 
-Puede encontrar la implementación de los algoritmos descritos en 
+Se puede encontrar la implementación de los algoritmos descritos en 
 `src/SAX.py`, en ellos se encuentran fielmente escritos los pasos mencionados.  
 
 Cabe destacar que  se han tomado las siguientes decisiones en diseño: 
 
-- Por eficiencia y poder reutilizar el código de información mutua se ha tomado por alfabeto a un subconjunto de tamaño $a$ de los números reales. 
+- Por eficiencia y para poder reutilizar el código de información mutua se ha tomado por alfabeto un subconjunto de tamaño $a$ de los números reales. 
 
 
 
@@ -79,17 +76,17 @@ Cabe destacar que  se han tomado las siguientes decisiones en diseño:
 
 ### Descripción del experimento   
 
-Pretendemos calcular la información mutua en distintas cirscunstancias y compararlas
+Se pretende calcular la información mutua en distintas circunstancias y compararlas
 con los datos anteriores. 
 
-Con este fin $w$ el tamaño de la nueva señal de un trozo $T$ vendrá dado por 
+Con este fin, $w$, que será el tamaño de la nueva señal de un trozo $T$, vendrá dado por 
 $$
 w = \frac{\text{Tamaño de la señal del trozo } T}{ w'}
 $$
 donde $w'$ es el tamaño de palabra que se usó en el trozo $T$ de los apartados anteriores. 
 
-Por limitaciones computacionales se han seleccionado las siguientes combinaciones de prueba: 
 
+Por limitaciones computacionales se han seleccionado las siguientes combinaciones de prueba: 
 
 
 | Trozo | Tamaños $w'$ | 
@@ -100,24 +97,25 @@ Por limitaciones computacionales se han seleccionado las siguientes combinacione
 
 : Combinaciones de tamaño de palabra $w'$ para SAX que se van a realizar {#tbl-sax-palabra} 
 
-Tamaños de alfabeto: $1,2,5,10,20$ y $50$
+-Los tamaños de alfabeto: $1,2,5,10,20$ y $50$
 independientemente del trozo que sea. 
 
-Tamaños de bits con el que calcular la información mutua: $1,2,3,4,5,6,7$ y $8$ independientemente del trozo que sea.
+-Los valores de bit con los que calcular la información mutua: $1,2,3,4,5,6,7$ y $8$, independientemente del trozo que sea.
 
-Para el experimento se han realizado todas las combinaciones posibles
- de estos parámetros y se ha calculado la información mutua pertinente. 
+Para el experimento que vamos a realizar, se han llevado a cabo todas las combinaciones posibles
+ de estos parámetros, calculando, asimismo, la información mutua pertinente. 
 
-Puede ejecutar el experimento realizando `make calcular_sax` o directamente escribiendo `python src/experiment_sax_mi.py`. 
+Puede ejecutarse el experimento realizando el comando `make calcular_sax` o directamente escribiendo `python src/experiment_sax_mi.py`. 
 
 ### Resultados obtenidos   
 
+A continuación procedemos a mostrar y comentar los resultados que se han obtenido para este tipo de codificación:
 ### Trozo C   
 
-Puede encontrar los resultados completos en el apéndice sección
+Pueden encontrarse los resultados completos en el apéndice, sección
 \ref{appendix:codification_sax_a}. 
 
-Una representación gráfica de los mismos con un mapa de color sería la mostrada en la figura @fig-A-mapa-calor; para su interpretación  tenga presente que a más claro mayor es la entropía.
+A continuación, se muestra una representación gráfica de los mismos con un mapa de color, tal y como se puede observar en la figura @fig-A-mapa-calor. En dicha gráfica interpretaremos que, a más claro mayor es la información mutua.
 
 :::{#fig-A-mapa-calor  layout-ncol=3}
 
@@ -141,17 +139,18 @@ Mapa de color de la información mutua variando en función del número de
 bits, tamaño de palabra $w'$ y tamaño de alfabeto $a$.
 :::
 
-A la vista de los resultados uno se da cuenta que por lo general aumentar el 
-ancho de ventana mejora los resultados, pero que llegado a cierto punto va en detrimento. 
+
+A la vista de los resultados, vemos que por lo general, aumentar el 
+ancho de ventana mejora los resultados, pero que llegado a un cierto punto, dichos resultados comienzan a empeorar. 
 
 El ancho de ventana en este problema se puede ampliar en dos aspectos y tiene diferentes matices:  
 
-- **Tamaño de palabra para el cálculo de la información mutua**, lo que nosotros hemos denominado durante todo el experimento como bits $b$. Tiene en cuenta eventos temporales situaciones contiguas de tiempo. 
+- **Tamaño de palabra para el cálculo de la información mutua**, lo que nosotros hemos denominado durante todo el experimento como bits $b$. Tiene en cuenta los eventos temporales en situaciones contiguas de tiempo. 
 
 - **Tamaño de palabra de reducción**, esto es lo que nosotros hemos denotado como $w'$, reduce a un símbolo la media de valores de esa palabra. 
 
-Una moraleja que se obtiene de aquí es que  **aumentar el número de bits no significa mayor cantidad de información mutua**. Fijadas la palabra y  tamaño de alfabeto, 
-si bien al  hacer crecer el número de bits se aprecia una tendencia creciente de la información mutua, existen ciertas excepciones. 
+Una moraleja que se obtiene de aquí es que  **aumentar el número de bits no significa mayor cantidad de información mutua**. Fijadas la palabra y el tamaño del alfabeto, 
+al  hacer crecer el número de bits se aprecia una tendencia creciente de la información mutua, salvo en ciertas ocasiones. 
 
 Como muestra de ello se tienen las siguiente combinaciones, para las  que aumentar el número de bits no implica una mejora en la información mutua: 
 
@@ -177,10 +176,10 @@ Queda reflejado su valor en la @fig-SAX-C-IM-bits
 Información mutua variando bits para para trozo C
 :::
 
-
-El máximo de IM se alcanza para 8 bits, con un tamaño de palabra 11 y tamaño de alfabeto 50. 
-
 Si ordenamos los parámetros por su eficiencia mutua puede encontrar a los diez primeros en la @tbl-resultados-sax-trozo-a-bits-top-im .  
+Aquí vemos que el máximo de IM se alcanza para 8 bits, con un tamaño de palabra 11 y tamaño de alfabeto 50. 
+
+
 
 bits|words|alphabet_size|IM(LP,VD)  
 --- | --- | --- | ---   
@@ -197,7 +196,7 @@ bits|words|alphabet_size|IM(LP,VD)
 
 : Combinaciones de información mutua máxima  {#tbl-resultados-sax-trozo-a-bits-top-im}
 
-A la vista de estos resultados podemos observar que para tamaños de bit lo suficientemente grande los parámetros clave han sido el tamaño de palabra $11$ y un alfabeto de tamaño $50$. 
+A la vista de estos resultados podemos observar que para tamaños de bit lo suficientemente grandes, los parámetros clave han sido el tamaño de palabra $11$ y un alfabeto de tamaño $50$. 
 
 
 La tendencia a mejorar con el tamaño del alfabeto puede observarse gráficamente en la @fig-SAX-C-IM-alfabeto : 
@@ -233,33 +232,34 @@ Información mutua variando bits para para trozo C
 
 
 Las conclusiones que se sacan es que cuando muchos 
-*samples* se ven involucrados *la información se diluye* y por tanto la entropía baja. 
-Como era de esperar, al añadir más símbolos la información mutua mejora en comparación con la primera codificación, la idea intuitiva de esto subyace en que tenemos *más pistas* de lo que va a ocurrir. 
+*samples* se ven involucrados *la información se diluye* y por tanto la información mutua baja. 
+Como era de esperar, al añadir más símbolos, la información mutua mejora en comparación con la primera codificación, la idea intuitiva de esto subyace en que tenemos *más pistas* de lo que va a ocurrir. 
 
-Un problema que tiene es que no contempla aportar la información para los spikes.
+Por otro lado, un problema que tiene es que no contempla aportar la información para los spikes.
 
 ## Comparativa  
 
-
+En este apartado realizaremos una comparación de los resultados obtenidos con SAX
+y con la codificación de los anteriores apartados.
 ### Ventajas  
 
 - La **reducción de tamaño** de la señal  permite un tratamiento más rápido. 
-- Discretización de los valores que puede tomar la señal, esto simplifica su tratamiento. 
+- La discretización de los valores que puede tomar la señal, lo cuál simplifica en gran medida su tratamiento. 
 
 ### Desventajas  
 
-- Pérdida de información. 
-- Rigidez a la hora de calcular $\bar C$ ya que solo es el promedio de los datos de una palabra.
-- Selección de hiperparámetros libre, se desconoce un método eficaz y rigoroso como criterio de selección o descarte de los hiperparámetros $a$ y
+- La pérdida de información, supone un gran problema para nuestro estudio.
+- La rigidez a la hora de calcular $\bar C$ ya que solo es el promedio de los datos de una palabra.
+- La selección de hiperparámetros libres, se desconoce un método eficaz y riguroso como criterio de selección o descarte de los hiperparámetros $a$ y
 $w$. 
 
 ## Trozo  R 
 
-Se ha repetido el mismo análisis para el resto de trozos R y G, las conclusiones han sido equivalentes para estos dos últimos.  
+Se ha repetido el mismo análisis para el resto de trozos R y G, siendo las conclusiones equivalentes para estos dos últimos.  
 
-Puede encontrar los resultados numéricos del trozo R en el apéndice \ref{appendix:codification_sax_r} (o en la carpeta `experiment_results/SAX`).
+Se pueden encontrar los resultados numéricos del trozo R en el apéndice \ref{appendix:codification_sax_r} (o en la carpeta `experiment_results/SAX`).
 
-Puede contemplar el mapa de calor de la información mutua en la @fig-R-mapa-calor  
+Además, se puede contemplar el mapa de calor de la información mutua en la @fig-R-mapa-calor  
 
 :::{#fig-R-mapa-calor  layout-ncol=3}
 
@@ -284,7 +284,7 @@ bits, tamaño de palabra $w'$ y tamaño de alfabeto $a$.
 :::
 
 
-Los diez mejores valore de información mutua han sido 
+Los diez mejores valores de información mutua que hemos obtenido han sido 
 
 bits | words | alphabet_size | IM(LP,VD)  
 --- | --- | --- | ---     
@@ -302,10 +302,9 @@ bits | words | alphabet_size | IM(LP,VD)
 : Combinaciones de información mutua máxima para el trozo R  {#tbl-resultados-sax-trozo-r-bits-top-im}
 
 ## Trozo G
-  
-Puede encontrar los resultados numéricos del trozo G en el apéndice \ref{appendix:codification_sax_g} (o en la carpeta `experiment_results/SAX`).
+Para este trozo, se pueden encontrar los resultados numéricos en el apéndice \ref{appendix:codification_sax_g} (o en la carpeta `experiment_results/SAX`).
 
-Puede contemplar el mapa de calor de la información mutua en la @fig-G-mapa-calor , preste atención a los valores del rango con cuidado. 
+Del mismo modo, se puede contemplar el mapa de calor de la información mutua en la @fig-G-mapa-calor , preste atención a los valores del rango con cuidado. 
 
 :::{#fig-G-mapa-calor  layout-ncol=3}
 
@@ -345,29 +344,20 @@ bits | words | alphabet_size | IM(LP,VD)
 
 : Combinaciones de información mutua máxima para el trozo G  {#tbl-resultados-sax-trozo-g-bits-top-im}
 
-## Conclusiones trozo C y G 
+## Conclusiones trozo R y G 
 
-TODO
+Tal y como pueden observarse en los resultados obtenidos, la variación de los parámetros, plantea un mismo comportamiento que en el trozo C.
+A mayor número de muestras involucradas en el experimento, peores resultados se obtienen de la información mutua. 
 
 ## Futuros campos que contemplar esta codificación   
 
-A la hora de presentar el problema se indica que el tamaño final de la cadena es $w$, sería interesante reenfocarlo como nosotros hemos hecho, en vez de que la media se de los $w_0/w$ definir la variable $w'$ que sería el número de elementos sobre los que se haría la media. 
+A la hora de presentar el problema se indica que el tamaño final de la cadena es $w$, sería interesante reenfocarlo como nosotros hemos hecho, en vez de la media de los $w_0/w$, definir la variable $w'$ que sería el número de elementos sobre los que se haría la dicha media. 
 
-La longitud por tanto vendría dada como $w_0/w'$ y lo que es más interesante 
+La longitud, por tanto, vendría dada como $w_0/w'$ y lo que es más interesante 
 se podría jugar con el *stride* (desplazamiento de ventana) y hacer de la media una pondera. 
 
 Además el problema de utilizar percentiles equidistantes es que se pierde 
-la posibilidad de que con un espacio menor de combinaciones posible entre todos los símbolos del alfabeto se pueda codificar evento de cierto tipo, como por ejemplo los *spikes* en nuestro algoritmo. 
-
-Esto es generalizar y abstraer el problema.
-
-De esta manera
- Se podían plantear una generalización de lo que nos
-
-
-
-
-
+la posibilidad de que con un espacio menor de combinaciones posible entre todos los símbolos del alfabeto se pueda codificar un evento de cierto tipo, como por ejemplo los *spikes* en nuestro algoritmo. 
 
 
 ## Notas  

@@ -1,3 +1,9 @@
 # Summary
 
-In summary, this book has no content whatsoever.
+A continuación procedemos a enumerar las conclusiones de nuestro trabajo:
+
+- Hemos realizado una estimación del doble umbral para calcular los spikes mediante una variación de los mismos en torno a la media.
+- A partir de este doble umbral se han detectado todos los spikes en el trozo R
+- Se ha llevado a cabo, a partir de estos spikes, el cálculo de la información mutua, parar este archivo de datos, viendo que a mayor número de bits, se obtienen mejores resultados.
+- Hemos comentado varios aspectos sobre la entropía normalizada en base a nuestros datos
+-Se ha llevado a cabo un estudio a través de otra codificación distinta para la detección de spikes, SAX, la cuál nos ha dado conclusiones similares para los trozos C, R y G. Además se ha ratificado como la información mutua empeora a tamaños de ventana mayores.
