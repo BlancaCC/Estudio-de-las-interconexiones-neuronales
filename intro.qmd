@@ -3,6 +3,6 @@
 **Cálculo de Información Mutua entre dos series temporales** 
 
 A lo largo de esta memoria se calculará la Información Mutua (IM) entre las series temporales de la neurona VD y la neurona LP, en estados de control, inyección de Gaba y recuperación del sistema. Así como se calculará la transferencia de entropía de la neurona VD a LP y viceversa, para los diferentes tamaños de palabras.
-Utiliza para ello la entropía normalizada.
+Utilizando para ello la entropía normalizada.
 
 Finalmente se propondrá otro tipo de representación de los eventos para calcular las probabilidades y así la IM en el sistema.
