@@ -5,16 +5,22 @@ del máster de Ciencia de Datos de la UAM del curso 2022-2023.
 
 Esta memoria ha sido generada con [Quarto](https://quarto.org) y el lenguaje utilizado ha sido [Python](https://www.python.org/downloads/). 
 
-Las funciones declaradas se encuentra en el directorio `src` y contiene las siguientes: 
 
-- `read_data.py`: Lee los datos en formato `csv` y devuelve un `dataframe` con ellos. 
+La estructura de directorio es la siguiente: 
 
- los notebooks en formato `.qmd` es la memoria ejecutable y que hace llamdas a tales funciones. 
+- `src` contiene los ejecutables. Cada fichero se encarga de una función concreta, ya sea una colección de funciones o la implementación de un experimento.  A lo largo de la memoria se detallará su contenido y se explicará cómo llamarlos. 
+
+- `experiment_results`  Contiene los resultados de los experimentos de ejecutables del `src`. 
+
+- `img` Contiene las imágenes generadas durante los experimentos. En la memoria se muestran las más interesantes, pero no todas. 
+
+
+Los notebooks en formato `.qmd` es la memoria ejecutable, se comporta como un jupyter. 
 
 Para poder ejecutar la memoria entera dispone de un `Makefile` cuyas funciones básicas son: 
 
 - `make` o `make render` Para renderizar un pdf. 
 - Visualización de la memoria en html `make preview`. 
 
-Para ejecutar alguna casilla concreta puede abrir. 
+ 
 
