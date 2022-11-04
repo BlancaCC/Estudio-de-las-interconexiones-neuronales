@@ -3,6 +3,7 @@ Saca las gráficas de los resultados obtenidos
 '''
 import pandas as pd
 import matplotlib.pyplot as plt 
+import plotly.express as px
 
 def read_data(source: str, columns_name: list[str]) -> pd.DataFrame:
     '''
@@ -99,4 +100,19 @@ if __name__ == '__main__':
         plt.savefig(path+folder+f'IM_variando_alfabeto_w={w}', bbox_inches='tight')
         #plt.show()
         plt.close()
+
+    # Mapas de color 
+    folder = 'heatmap/'
+    for b in bits: 
+        new_df = df.query(f'{bits_column} == {b}' )
+        fig = px.density_heatmap(new_df[[words_column, alphabet_size_column, IM_column]],
+        x=words_column, 
+        y=alphabet_size_column,
+         z=IM_column, 
+         histfunc="avg",
+         title=f'IM en función del tamaño de palabra y del alfabeto para {b} bits'
+        )
+
+        fig.write_image(path+folder+f'mapaCalor_bits={b}.png')
+
     print(f'Imágenes guardadas en {path} con éxito')
